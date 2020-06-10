@@ -29,9 +29,7 @@ public class UserDao {
         this.dbuser = "root";
         this.dbpass = "root";
     }
-    
-    
-    
+
     public List<User> getAllUsers() {
 	List<User> users = new ArrayList<>();
 	try (Connection conn = DriverManager.getConnection(dbdriver,dbuser,dbpass);
@@ -85,5 +83,25 @@ public class UserDao {
             throw new RuntimeException(e); 
 	}
         return tr.get(0);
+    }
+    
+    public User getUser(int account){
+        List<User> users = new ArrayList<>();
+	try (Connection conn = DriverManager.getConnection(dbdriver,dbuser,dbpass);
+	 PreparedStatement stm = conn.prepareStatement("SELECT * FROM user WHERE account = ?");
+	 ) {	
+            stm.setInt(1, account);
+            ResultSet results = stm.executeQuery();
+            while (results.next()) {
+		String username = results.getString("username");
+                String password = results.getString("password");
+                String tr = results.getString("transaction");
+                User u = new User(account, username, password, convertToList(tr));
+                users.add(u);
+            }
+	} catch (SQLException e) {
+            throw new RuntimeException(e); 
+	}
+        return users.get(0);
     }
 }
