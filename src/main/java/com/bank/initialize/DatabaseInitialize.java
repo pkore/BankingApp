@@ -63,6 +63,11 @@ public class DatabaseInitialize {
             try (PreparedStatement prepStm = conn.prepareStatement("CREATE TABLE users (account int primary key, login varchar(30), password varchar(30), transaction varchar(255));")) {
 		prepStm.execute();
             }
+            
+            try (PreparedStatement prepStm = conn.prepareStatement("CREATE TABLE transaction (id int auto_increment primary key, source int, dest int, value float);")) {
+		prepStm.execute();
+            }
+            
 	} catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {

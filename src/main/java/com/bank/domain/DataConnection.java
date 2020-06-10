@@ -9,11 +9,11 @@ package com.bank.domain;
  *
  * @author Anushka Chincholkar
  */
-public class UserConnection {
+public class DataConnection {
     
     private static UserDao userDao;
 	
-	public static UserDao getItemDao() {
+	public static UserDao getUserDao() {
 		if (userDao == null) {
 			userDao = new UserDao();
 		}

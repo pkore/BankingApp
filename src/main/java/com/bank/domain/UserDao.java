@@ -52,6 +52,28 @@ public class UserDao {
         return users;
     }
     
+    public List<Customer> getAllCustomers() {
+	List<Customer> cstmList = new ArrayList<>();
+	try (Connection conn = DriverManager.getConnection(dbdriver,dbuser,dbpass);
+	 Statement stm = conn.createStatement();
+	 ) {	
+			
+            ResultSet results = stm.executeQuery("SELECT * FROM customer");
+            while (results.next()) {
+		int account = results.getInt("account");
+                String name = results.getString("name");
+                String email = results.getString("email");
+                int phone = results.getInt("phone");
+                double bal = results.getDouble("balance");
+                Customer cstm = new Customer(account, name, email, phone, bal);
+                cstmList.add(cstm);
+            }
+	} catch (SQLException e) {
+            throw new RuntimeException(e); 
+	}
+        return cstmList;
+    }
+    
     private List<Transaction> convertToList(String transaction){
         List<Transaction> tr = new ArrayList<>();
         if(transaction == null || transaction.equals("")){

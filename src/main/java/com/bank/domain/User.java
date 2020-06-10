@@ -5,7 +5,6 @@
  */
 package com.bank.domain;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -51,5 +50,10 @@ public class User {
 
     public List getTransaction() {
         return transaction;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" + "account=" + account + ", username=" + username + ", password=" + password + ", transaction=" + transaction + '}';
     }
 }

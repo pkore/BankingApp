@@ -59,4 +59,10 @@ public class Customer {
     public int getAccount() {
         return account;
     }
+
+    @Override
+    public String toString() {
+        return "Customer{" + "account=" + account + ", name=" + name + ", email=" + email + ", phone=" + phone + ", balance=" + balance + '}';
+    }
+    
 }

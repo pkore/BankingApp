@@ -11,14 +11,14 @@ package com.bank.domain;
  */
 public class Transaction {
     int id;
-    int from_acc;
-    int to_acc;
-    int value;
+    int source;
+    int dest;
+    double value;
 
-    public Transaction(int id, int from_acc, int to_acc, int value) {
+    public Transaction(int id, int from_acc, int to_acc, double value) {
         this.id = id;
-        this.from_acc = from_acc;
-        this.to_acc = to_acc;
+        this.source = from_acc;
+        this.dest = to_acc;
         this.value = value;
     }
 
@@ -26,15 +26,20 @@ public class Transaction {
         return id;
     }
 
-    public int getFrom_acc() {
-        return from_acc;
+    public int getSource() {
+        return source;
     }
 
-    public int getTo_acc() {
-        return to_acc;
+    public int getDest() {
+        return dest;
     }
 
-    public int getValue() {
+    public double getValue() {
         return value;
-    }    
+    }
+
+    @Override
+    public String toString() {
+        return "Transaction{" + "id=" + id + ", source=" + source + ", dest=" + dest + ", value=" + value + '}';
+    }
 }
