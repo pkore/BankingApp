@@ -54,6 +54,6 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" + "account=" + account + ", username=" + username + ", password=" + password + ", transaction=" + transaction + '}';
+        return "User{" + "account=" + account + ", username=" + username + ", password=" + password + '}';
     }
 }

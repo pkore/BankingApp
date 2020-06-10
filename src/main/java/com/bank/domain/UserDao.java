@@ -41,10 +41,10 @@ public class UserDao {
 	 Statement stm = conn.createStatement();
 	 ) {	
 			
-            ResultSet results = stm.executeQuery("SELECT * FROM user");
+            ResultSet results = stm.executeQuery("SELECT * FROM users");
             while (results.next()) {
 		int account = results.getInt("account");
-                String username = results.getString("username");
+                String username = results.getString("login");
                 String password = results.getString("password");
                 String transaction = results.getString("transaction");
                 List<Transaction> tr = convertToList(transaction);
@@ -79,7 +79,7 @@ public class UserDao {
         return cstmList;
     }
     
-    private List<Transaction> convertToList(String transaction){
+    public List<Transaction> convertToList(String transaction){
         List<Transaction> tr = new ArrayList<>();
         if(transaction == null || transaction.equals("")){
             return tr;
@@ -95,7 +95,7 @@ public class UserDao {
     public Transaction getTransaction(int id){
         List<Transaction> tr = new ArrayList<>();
 	try (Connection conn = DriverManager.getConnection(dbdriver,dbuser,dbpass);
-	 PreparedStatement stm = conn.prepareStatement("SELECT * FROM transaction WHERE id = ?");
+	 PreparedStatement stm = conn.prepareStatement("SELECT * FROM transactions WHERE id = ?");
 	 ) {	
             stm.setInt(1, id);
             ResultSet results = stm.executeQuery();
@@ -112,15 +112,15 @@ public class UserDao {
         return tr.get(0);
     }
     
-    public User getUser(int account){
+    public User getUser(String username){
         List<User> users = new ArrayList<>();
 	try (Connection conn = DriverManager.getConnection(dbdriver,dbuser,dbpass);
-	 PreparedStatement stm = conn.prepareStatement("SELECT * FROM user WHERE account = ?");
+	 PreparedStatement stm = conn.prepareStatement("SELECT * FROM users WHERE username = ?");
 	 ) {	
-            stm.setInt(1, account);
+            stm.setString(1, username);
             ResultSet results = stm.executeQuery();
             while (results.next()) {
-		String username = results.getString("username");
+		int account = results.getInt("account");
                 String password = results.getString("password");
                 String tr = results.getString("transaction");
                 User u = new User(account, username, password, convertToList(tr));
@@ -130,5 +130,38 @@ public class UserDao {
             throw new RuntimeException(e); 
 	}
         return users.get(0);
+    }
+    
+    private String convertToString(List<Transaction> tr){
+        String contents = "";
+	if (tr.isEmpty()) {
+            return contents;
+	}
+	for (Transaction t : tr ) {
+            contents = contents + t.getId() + ":";
+	}
+	contents = contents.substring(0, contents.length()-1);
+	return contents;
+    }
+    
+    public void newUser(User u){
+        List<User> users = getAllUsers();
+        
+        for(User temp_u: users){
+            if(temp_u.getAccount() == u.getAccount()){
+                return;
+            }
+        }
+        
+        try (Connection conn = DriverManager.getConnection(dbdriver, dbuser, dbpass);
+                PreparedStatement prepStm = conn.prepareStatement("INSERT INTO users (account, login, password, transaction) values (?,?,?,?);");) {
+            prepStm.setInt(1, u.getAccount());
+            prepStm.setString(2, u.getUsername());
+            prepStm.setString(3, u.getPassword());
+            prepStm.setString(4, convertToString(u.getTransaction()));
+            prepStm.execute();
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
     }
 }

@@ -6,8 +6,10 @@
 <%@page import="com.bank.domain.DataConnection" %>
 <%@page import="com.bank.domain.UserDao" %>
 <%@page import="com.bank.domain.User" %>
+<%@page import="com.bank.domain.Transaction" %>
 <%@page import="com.bank.domain.Customer" %>
 <%@ page import="java.util.List"%>
+<%@ page import="java.util.ArrayList"%>
 
 
 <% 
@@ -28,7 +30,14 @@
         <% 
             for(Customer cstm: cstmList){
         %>
-                <li><%= cstm %></li>
-            <%;}%>
+            <li><%= cstm %></li>
+        <%;}
+            User u = new User(987654, "pop", "pass", userdao.convertToList(""));
+            userdao.newUser(u);
+            List<User> userList = userdao.getAllUsers();
+            for(User user: userList){
+        %>
+            <li><%= user %></li>
+        <%;}%>
     </body>
 </html>
