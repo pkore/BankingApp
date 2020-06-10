@@ -28,6 +28,11 @@ public class UserDao {
         this.dbdriver = "jdbc:mysql://localhost:3306/bank";
         this.dbuser = "root";
         this.dbpass = "root";
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch(ClassNotFoundException e){
+            e.printStackTrace();
+        }
     }
 
     public List<User> getAllUsers() {
@@ -58,7 +63,7 @@ public class UserDao {
 	 Statement stm = conn.createStatement();
 	 ) {	
 			
-            ResultSet results = stm.executeQuery("SELECT * FROM customer");
+            ResultSet results = stm.executeQuery("SELECT * FROM customers");
             while (results.next()) {
 		int account = results.getInt("account");
                 String name = results.getString("name");

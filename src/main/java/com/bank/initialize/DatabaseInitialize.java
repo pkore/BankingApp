@@ -64,7 +64,7 @@ public class DatabaseInitialize {
 		prepStm.execute();
             }
             
-            try (PreparedStatement prepStm = conn.prepareStatement("CREATE TABLE transaction (id int auto_increment primary key, source int, dest int, value float);")) {
+            try (PreparedStatement prepStm = conn.prepareStatement("CREATE TABLE transactions (id int auto_increment primary key, source int, dest int, value float);")) {
 		prepStm.execute();
             }
             
