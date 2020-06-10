@@ -23,6 +23,14 @@ public class UserDao {
     String dbdriver;
     String dbuser;
     String dbpass;
+
+    public UserDao() {
+        this.dbdriver = "jdbc:mysql://localhost:3306/bank";
+        this.dbuser = "root";
+        this.dbpass = "root";
+    }
+    
+    
     
     public List<User> getAllUsers() {
 	List<User> users = new ArrayList<>();
