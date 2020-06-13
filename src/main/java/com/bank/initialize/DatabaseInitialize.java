@@ -39,7 +39,7 @@ public class DatabaseInitialize {
         cstmList.add(new Customer(474637,"Munni Tandon", "munnon@gmail.com", "9564773382", 5654.54));
         cstmList.add(new Customer(657399,"Ujwal Bhai", "ujwalbnda@gmail.com", "4738182938", 877765.00));
         cstmList.add(new Customer(456000,"Tanay Bhai", "tanaybria@gmail.com", "9890786543", 76758993.44));
-        cstmList.add(new Customer(037466,"Urvashi Jagdish", "urvashrin@gmail.com", "9098765432", 7689.44));
+        cstmList.add(new Customer(937466,"Urvashi Jagdish", "urvashrin@gmail.com", "9098765432", 7689.44));
         cstmList.add(new Customer(765473,"Sohail Somani", "sohani@gmail.com", "7889977654", 10398478.55));
         cstmList.add(new Customer(765474,"Shah Suman", "ssuman@gmail.com", "7889977635", 775648.33));
         return cstmList;
@@ -63,7 +63,7 @@ public class DatabaseInitialize {
 		prepStm.execute();
             }
 				
-            try (PreparedStatement prepStm = conn.prepareStatement("CREATE TABLE customers (account int primary key, name varchar(30), email varchar(150), phone int, balance float);")) {
+            try (PreparedStatement prepStm = conn.prepareStatement("CREATE TABLE customers (account int primary key, name varchar(30), email varchar(150), phone varchar(11), balance float);")) {
 		prepStm.execute();
             }
             
