@@ -13,10 +13,10 @@ public class Customer {
     int account;
     String name;
     String email;
-    int phone;
+    String phone;
     double balance;
 
-    public Customer(int account, String name, String email, int phone, double value) {
+    public Customer(int account, String name, String email, String phone, double value) {
         this.account = account;
         this.name = name;
         this.email = email;
@@ -40,11 +40,11 @@ public class Customer {
         this.email = email;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 

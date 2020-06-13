@@ -68,7 +68,7 @@ public class UserDao {
 		int account = results.getInt("account");
                 String name = results.getString("name");
                 String email = results.getString("email");
-                int phone = results.getInt("phone");
+                String phone = results.getString("phone");
                 double bal = results.getDouble("balance");
                 Customer cstm = new Customer(account, name, email, phone, bal);
                 cstmList.add(cstm);
