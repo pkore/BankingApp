@@ -9,5 +9,5 @@
  * @author Admin
  */
 public class NewClass {
-    
+    int x = 5;
 }
