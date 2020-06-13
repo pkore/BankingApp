@@ -10,5 +10,5 @@ package com.bank.domain;
  * @author Admin
  */
 public class NewClass {
-    int x=5;
+    int x=8;
 }
