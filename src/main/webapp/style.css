@@ -1,0 +1,97 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 13-Jun-2020, 8:35:34 pm
+    Author     : Admin
+*/
+
+*{
+	margin: 0;
+	padding: 0;
+    box-sizing: border-box;
+    color: #444;
+    font-family: calibri;
+}
+body{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	width: 100vw;
+	background-color: #84b8f0;
+
+}
+.login{
+	text-align: center;
+	position: relative;
+	width: 280px;
+
+}
+input, button{
+	width: 100%;
+	border: 0;
+	border-radius: 20px;
+}
+input{
+	border-bottom: 2px solid #444;
+	padding: 12px 40px 12px 20px;
+}
+
+input, button, .group i, p, a{
+	font-size: 13.3333px;
+	font-weight: 600;
+}
+.group{
+	margin-bottom: 10px;
+	position: relative;
+}
+.group i{
+	position: absolute;
+	top: 15px;
+	right: 20px;
+}
+button{
+	padding: 12px;
+	background-image: linear-gradient(to right, #1c62ad, black);
+	margin-bottom: 20px; 
+	cursor: pointer;
+
+}
+button, button i{
+	color: #fff;
+}
+button i{
+	margin-right: 5px;
+}
+p{
+	margin-bottom: 20px;
+
+}
+i.fa.fa-empire, a{
+	color:#1c62ad;
+}
+i.fa.fa-empire{
+	font-size: 60px;
+	margin-bottom: 20px;
+}
+h2{
+	margin-bottom: 20px;
+}
+input:focus, input:focus::placeholder, input:focus+i{
+	color: #1c62ad;
+}
+input:focus, button:focus{
+	outline: 0;
+}
+
+body:before, body:after{
+	content: "";
+	position: absolute;
+	height: 300px;
+
+width: 500px;
+
+}
