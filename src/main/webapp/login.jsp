@@ -3,7 +3,7 @@
     Created on : 13-Jun-2020, 8:32:28 pm
     Author     : Admin
 --%>
-
+<%@page import="com.bank.servlet.LoginServlet" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,11 +18,13 @@
 	<div class="login">
 		<i class="fa fa-empire"></i>
 		<h2>Login</h2>
+                <form name="form" action="LoginServlet" method="post">
 		<div class="group"><input type="text" placeholder='Username'><i class="fa fa-user-circle" aria-hidden="true"></i></i></div>
 		<div class="group"><input type="password" placeholder="Password"><i class="fa fa-lock"></i></div>
 		<button><i class="fa fa-send"></i>Login</button>
 		<p class="fs">Forgot <a href="#">Username</a> / <a href="">Password</a>?</p>
-		<p class='ss'>Don't have an account?<a href="#">Signup</a></p>
+		<p class='ss'>Don't have an account?<a href="/signup.jsp">Signup</a></p>
+                </form>
       </div>
   </body>
   </html>

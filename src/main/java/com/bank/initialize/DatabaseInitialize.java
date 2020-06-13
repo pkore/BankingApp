@@ -6,6 +6,7 @@
 package com.bank.initialize;
 
 import com.bank.domain.Customer;
+import java.sql.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -21,6 +22,7 @@ public class DatabaseInitialize {
     
     private List<Customer> getCustomerList(){
         List<Customer> cstmList = new ArrayList<>();
+        cstmList.add(new Customer(123456,"Ram Kapoor", "rkapoor@gmail.com", "9172330811", 25000.00));
         cstmList.add(new Customer(234567,"Pran Gandhi", "pgandhi@gmail.com", "1234567890", 25022.45));
         cstmList.add(new Customer(234531,"Jatin Rao", "jatiar@gmail.com", "3173636442", 453662.77));
         cstmList.add(new Customer(657832,"Radhe Ghosh", "radhsh@gmail.com", "9870675663", 6599403.34));
