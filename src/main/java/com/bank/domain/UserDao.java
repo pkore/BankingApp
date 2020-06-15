@@ -358,7 +358,7 @@ public class UserDao {
                 int id = newTransaction(suser.getAccount(), dest, value);
                 updateTransaction(suser.getAccount(), id);
                 updateTransaction(dest, id);
-                return "SUCCESS";
+                return "SUCCESS:" + Integer.toString(id);
             }
         }
     }
