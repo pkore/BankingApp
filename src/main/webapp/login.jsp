@@ -13,13 +13,31 @@
 	<link rel="stylesheet" href="style.css">
 	
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script> 
+            function validate()
+            { 
+                 var username = document.form.Username.value; 
+                 var password = document.form.Password.value;
+
+                 if (username==null || username=="")
+                 { 
+                 alert("Username cannot be blank"); 
+                 return false; 
+                 }
+                 else if(password==null || password=="")
+                 { 
+                 alert("Password cannot be blank"); 
+                 return false; 
+                 } 
+            }
+    </script> 
 </head>
 <body>
 	<div class="login">
 		<i class="fa fa-empire"></i>
 		<h2>Login</h2>
-                <form name="form" action="LoginServlet" method="post">
-		<div class="group"><input type="text" placeholder='Username'><i class="fa fa-user-circle" aria-hidden="true"></i></i></div>
+                <form name="form" action="LoginServlet" method="post" onsubmit="return validate()">
+		<div class="group"><input type="text" placeholder="Username"><i class="fa fa-user-circle" aria-hidden="true"></i></i></div>
 		<div class="group"><input type="password" placeholder="Password"><i class="fa fa-lock"></i></div>
 		<button><i class="fa fa-send"></i>Login</button>
 		<p class="fs">Forgot <a href="#">Username</a> / <a href="#">Password</a>?</p>
