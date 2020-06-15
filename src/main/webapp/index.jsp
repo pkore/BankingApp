@@ -34,6 +34,11 @@
         <%;}
             User u = new User(987654, "pop", "passo", userdao.convertToList(""), true);
             userdao.newUser(u);
+            List<Transaction> trList = userdao.getAllTransactions();
+            for(Transaction tr: trList){
+        %>
+            <li><%= tr %></li>
+        <%;}
             List<User> userList = userdao.getAllUsers();
             for(User user: userList){
         %>

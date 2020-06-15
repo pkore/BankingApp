@@ -81,6 +81,27 @@ public class UserDao {
         return cstmList;
     }
     
+    public List<Transaction> getAllTransactions() {
+	List<Transaction> trList = new ArrayList<>();
+	try (Connection conn = DriverManager.getConnection(dbdriver,dbuser,dbpass);
+	 Statement stm = conn.createStatement();
+	 ) {	
+			
+            ResultSet results = stm.executeQuery("SELECT * FROM transactions");
+            while (results.next()) {
+		int id = results.getInt("id");
+                int source = results.getInt("source");
+                int dest = results.getInt("dest");
+                double value = results.getDouble("value");
+                Transaction tr = new Transaction(id, source, dest, value);
+                trList.add(tr);
+            }
+	} catch (SQLException e) {
+            throw new RuntimeException(e); 
+	}
+        return trList;
+    }
+    
     public List<Transaction> convertToList(String transaction){
         List<Transaction> tr = new ArrayList<>();
         if(transaction == null || transaction.equals("")){
@@ -102,8 +123,8 @@ public class UserDao {
             stm.setInt(1, id);
             ResultSet results = stm.executeQuery();
             while (results.next()) {
-		int from = results.getInt("from");
-                int to = results.getInt("to");
+		int from = results.getInt("source");
+                int to = results.getInt("dest");
                 int value = results.getInt("value");
                 Transaction t = new Transaction(id, from, to, value);
                 tr.add(t);
@@ -234,8 +255,9 @@ public class UserDao {
             prepStm.setInt(2, dest);
             prepStm.setDouble(3, value);
             prepStm.execute();
-            try (ResultSet generatedKeys = prepStm.getGeneratedKeys()) {
-                return generatedKeys.getInt(1);
+            try (Statement stm = conn.createStatement()) {
+                ResultSet results = stm.executeQuery("SELECT MAX(id) FROM transactions;");
+                if(results.next()) return results.getInt(1);
             } catch (SQLException e){
                 e.printStackTrace();
             }
@@ -346,10 +368,14 @@ public class UserDao {
     public String sendMoney(String login, int dest, double value){
         User suser = getUser(login);
         Customer dcstm = getCustomer(dest);
-        if(dcstm.getAccount() == 0) return "Invalid Destination account";
+        if(dcstm.getAccount() == 0){
+            return "Invalid Destination account";
+        }
         else{
             Customer cstm = getCustomer(suser.getAccount());
-            if(cstm.getBalance() <= value) return "Insufficient Balance";
+            if(cstm.getBalance() <= value){
+                return "Insufficient Balance";
+            }
             else{
                 double sbal = cstm.getBalance();
                 double dbal = dcstm.getBalance();

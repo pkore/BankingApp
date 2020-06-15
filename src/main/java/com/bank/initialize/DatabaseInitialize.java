@@ -6,13 +6,16 @@
 package com.bank.initialize;
 
 import com.bank.domain.Customer;
-import java.sql.*;
+import com.bank.domain.DataConnection;
+import com.bank.domain.User;
+import com.bank.domain.UserDao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  *
@@ -47,6 +50,16 @@ public class DatabaseInitialize {
         return cstmList;
     }
     
+    private List<Customer> getNewUserList(){
+        List<Customer> cstmList = new ArrayList<>();
+        cstmList.add(new Customer(123456,"Ram Kapoor", "rkapoor@gmail.com", "9172330811", 25000.00));
+        cstmList.add(new Customer(986743,"Savita Gill", "savitll@gmail.com", "9323415456", 9000.00));
+        cstmList.add(new Customer(247392,"Faraz Lal", "faratal@gmail.com", "9819293454", 879954.55));
+        cstmList.add(new Customer(476329,"Payal Chaudry", "payalcdry@gmail.com", "9836545143", 67748.55));
+        cstmList.add(new Customer(765474,"Shah Suman", "ssuman@gmail.com", "7889977635", 775648.33));
+        return cstmList;
+    }
+    
     public void initializeDatabase() {
 	try {
                     
@@ -62,6 +75,10 @@ public class DatabaseInitialize {
             }
             
             try (PreparedStatement prepStm = conn.prepareStatement("DROP TABLE IF EXISTS transactions;")) {
+		prepStm.execute();
+            }
+            
+            try (PreparedStatement prepStm = conn.prepareStatement("DROP TABLE IF EXISTS admins;")) {
 		prepStm.execute();
             }
 				
@@ -86,8 +103,30 @@ public class DatabaseInitialize {
 		prepStm.execute();
             }
             
+            List<Customer> userList = getNewUserList();
+            Random rand = new Random();
+            UserDao userdao = DataConnection.getUserDao();
+            for (Customer user : userList) {
+                User u = userdao.generateCredentials(user);
+                if(rand.nextInt(2) == 1) u.setActive(true);
+                userdao.newUser(u);
+            }
+            
             try (PreparedStatement prepStm = conn.prepareStatement("CREATE TABLE transactions (id int auto_increment primary key, source int, dest int, value float);")) {
 		prepStm.execute();
+            }
+            
+            try (PreparedStatement prepStm = conn.prepareStatement("INSERT INTO transactions (id, source, dest, value) values (1234,0,0,0);")){
+                prepStm.execute();
+            }
+            
+            for(int i=0; i<5; i++)
+            {
+                int user = rand.nextInt(userList.size());
+                String login = userdao.getUser(userList.get(user).getAccount()).getUsername();
+                int dest = cstmList.get(rand.nextInt(userList.size())).getAccount();
+                System.out.println(login + Integer.toString(dest));
+                userdao.sendMoney(login, dest, rand.nextInt(1000));
             }
             
 	} catch (SQLException e) {
