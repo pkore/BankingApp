@@ -24,6 +24,14 @@ public class Customer {
         this.balance = value;
     }
 
+    public Customer() {
+        this.account = 0;
+        this.name = "";
+        this.email = "";
+        this.phone = "";
+        this.balance = 0;
+    }
+
     public String getName() {
         return name;
     }

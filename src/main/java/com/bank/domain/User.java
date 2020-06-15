@@ -5,6 +5,7 @@
  */
 package com.bank.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -26,6 +27,10 @@ public class User {
     }
 
     public User() {
+        account = 0;
+        username = "";
+        password = "";
+        transaction = new ArrayList<>();
     }
 
     public String getUsername() {

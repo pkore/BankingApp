@@ -22,6 +22,13 @@ public class Transaction {
         this.value = value;
     }
 
+    public Transaction() {
+        this.id = 0;
+        this.source = 0;
+        this.dest = 0;
+        this.value = 0;
+    }
+
     public int getId() {
         return id;
     }

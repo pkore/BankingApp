@@ -5,7 +5,6 @@
  */
 package com.bank.domain;
 
-import static java.lang.System.out;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -14,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  *
@@ -110,13 +110,17 @@ public class UserDao {
 	} catch (SQLException e) {
             throw new RuntimeException(e); 
 	}
-        return tr.get(0);
+        if (tr.isEmpty()){
+            return new Transaction();
+        } else {
+            return tr.get(0);
+        }
     }
     
     public User getUser(String username){
         List<User> users = new ArrayList<>();
 	try (Connection conn = DriverManager.getConnection(dbdriver,dbuser,dbpass);
-	 PreparedStatement stm = conn.prepareStatement("SELECT * FROM users WHERE username = ?");
+	 PreparedStatement stm = conn.prepareStatement("SELECT * FROM users WHERE login = ?");
 	 ) {	
             stm.setString(1, username);
             ResultSet results = stm.executeQuery();
@@ -130,7 +134,60 @@ public class UserDao {
 	} catch (SQLException e) {
             throw new RuntimeException(e); 
 	}
-        return users.get(0);
+        if (users.isEmpty()){
+            return new User();
+        } else {
+            return users.get(0);
+        }
+    }
+    
+    public User getUser(int account){
+        List<User> users = new ArrayList<>();
+	try (Connection conn = DriverManager.getConnection(dbdriver,dbuser,dbpass);
+	 PreparedStatement stm = conn.prepareStatement("SELECT * FROM users WHERE account = ?");
+	 ) {	
+            stm.setInt(1, account);
+            ResultSet results = stm.executeQuery();
+            while (results.next()) {
+		String username = results.getString("login");
+                String password = results.getString("password");
+                String tr = results.getString("transaction");
+                User u = new User(account, username, password, convertToList(tr));
+                users.add(u);
+            }
+	} catch (SQLException e) {
+            throw new RuntimeException(e); 
+	}
+        if (users.isEmpty()){
+            return new User();
+        } else {
+            return users.get(0);
+        }
+    }
+    
+    public Customer getCustomer(int account){
+        List<Customer> cstmList = new ArrayList<>();
+	try (Connection conn = DriverManager.getConnection(dbdriver,dbuser,dbpass);
+	 PreparedStatement stm = conn.prepareStatement("SELECT * FROM customers WHERE account = ?");
+	 ) {	
+            stm.setInt(1, account);
+            ResultSet results = stm.executeQuery();
+            while (results.next()) {
+                String name = results.getString("name");
+                String phone = results.getString("phone");
+                String email = results.getString("email");
+                double balance = results.getDouble("balance");
+                Customer cstm = new Customer(account, name, phone, email, balance);
+                cstmList.add(cstm);
+            }
+	} catch (SQLException e) {
+            throw new RuntimeException(e); 
+	}
+        if(cstmList.isEmpty()){
+            return new Customer();
+        } else {
+            return cstmList.get(0);
+        }
     }
     
     private String convertToString(List<Transaction> tr){
@@ -170,28 +227,68 @@ public class UserDao {
         String userName = userObject.getUsername(); //Assign user entered values to temporary variables.
         String password = userObject.getPassword();
          
-         try
-         {
-             Connection con = DriverManager.getConnection(this.dbdriver,this.dbuser, this.dbpass); //attempting to connect to MySQL database
-             Statement statement = con.createStatement(); //Statement is used to write queries. Read more about it.
-             ResultSet resultSet = statement.executeQuery("SELECT login,password from users"); //the table name is users and userName,password are columns. Fetching all the records and storing in a resultSet.
+        try{
+            Connection con = DriverManager.getConnection(this.dbdriver,this.dbuser, this.dbpass); //attempting to connect to MySQL database
+            Statement statement = con.createStatement(); //Statement is used to write queries. Read more about it.
+            ResultSet resultSet = statement.executeQuery("SELECT login,password from users"); //the table name is users and userName,password are columns. Fetching all the records and storing in a resultSet.
  
-             while(resultSet.next()) // Until next row is present otherwise it return false
-             {
-              String userNameDB = resultSet.getString("login"); //fetch the values present in database
-              String passwordDB = resultSet.getString("password");
+            while(resultSet.next()){
+                String userNameDB = resultSet.getString("login"); //fetch the values present in database
+                String passwordDB = resultSet.getString("password");
  
-               if(userName.equals(userNameDB) && password.equals(passwordDB))
-               {
-                  return "SUCCESS"; ////If the user entered values are already present in the database, which means user has already registered so return a SUCCESS message.
-               }
-             }
-         }catch(SQLException e)
-             {
+                if(userName.equals(userNameDB) && password.equals(passwordDB)){
+                    return "SUCCESS"; ////If the user entered values are already present in the database, which means user has already registered so return a SUCCESS message.
+                }
+            }
+        }catch(SQLException e){
                 e.printStackTrace();
                 // out.print("FAILED");
-             }
-             return "Invalid user credentials"; // Return appropriate message in case of failure
-         }
+            }
+        return "Invalid user credentials"; // Return appropriate message in case of failure
     }
+    
+    public String authenticateCustomer(Customer cstm){
+        int account = cstm.getAccount();
+        Customer dbcstm = getCustomer(account);
+        if(cstm.getPhone().equals(dbcstm.getPhone()) && cstm.getEmail().equals(dbcstm.getEmail())){
+            return "SUCCESS";
+        } else {
+            return "Please enter registered email and phone";
+        }
+    }
+    
+    public String generateRandomString(){
+        int lowerlimit = 97;
+        int upperlimit = 122;
+        Random rand = new Random();
+        StringBuilder r = new StringBuilder(10);
+        for(int i=0; i<10; i++){
+            int nextRandChar = lowerlimit + (int)(rand.nextFloat()*(upperlimit - lowerlimit +1));
+            r.append((char)nextRandChar);
+        }
+        return r.toString();
+    }
+    
+    public User generateCredentials(Customer cstm){
+        Random rand = new Random();
+        String name = cstm.getName().toLowerCase().replaceAll("\\s", "");
+        if(cstm.getName().length()> 4){
+            name = name.substring(0, 4);
+        }
+        String login = name + Integer.toString(rand.nextInt(2000));
+        User dbuser = getUser(login);
+        while(dbuser.getAccount() != 0){
+            login = name + Integer.toString(rand.nextInt(2000));
+            dbuser = getUser(login);
+        }
+        String password = generateRandomString();
+        User u = new User(cstm.getAccount(), login, password, convertToList(""));
+        return u;
+    }
+    
+    public void sendCredentials(Customer cstm){
+        User u = getUser(cstm.getAccount());
+        
+    }
+}
 
