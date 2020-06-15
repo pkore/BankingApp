@@ -22,8 +22,8 @@
 		<div class="group"><input type="text" placeholder='Username'><i class="fa fa-user-circle" aria-hidden="true"></i></i></div>
 		<div class="group"><input type="password" placeholder="Password"><i class="fa fa-lock"></i></div>
 		<button><i class="fa fa-send"></i>Login</button>
-		<p class="fs">Forgot <a href="#">Username</a> / <a href="">Password</a>?</p>
-		<p class='ss'>Don't have an account?<a href="/signup.jsp">Signup</a></p>
+		<p class="fs">Forgot <a href="#">Username</a> / <a href="#">Password</a>?</p>
+                <p class='ss'>Don't have an account?    <a href="/Bank/signup.jsp">Signup</a></p>
                 </form>
       </div>
   </body>

@@ -5,12 +5,11 @@
  */
 package com.bank.servlet;
 
+import com.bank.domain.DataConnection;
 import com.bank.domain.UserDao;
 import com.bank.domain.User;
-import com.bank.initialize.DatabaseInitialize;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import static java.lang.System.out;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -57,9 +56,6 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        DatabaseInitialize db = new DatabaseInitialize();
-        db.initializeDatabase();
-        
       String username=request.getParameter("Username");
       String password=request.getParameter("Password");
       
@@ -67,7 +63,10 @@ public class LoginServlet extends HttpServlet {
       userObject.setUsername(username);
       userObject.setPassword(password);
       
-      UserDao userDao=new UserDao();
+      //Don't use this way of creating userDao
+      //UserDao userDao=new UserDao();
+      
+      UserDao userDao = DataConnection.getUserDao();
       String userValidate=userDao.authenticateUser(userObject);
       
       if(userValidate.equals("SUCCESS")) //If function returns success string then user will be rooted to Home page
