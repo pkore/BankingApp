@@ -32,7 +32,7 @@
         %>
             <li><%= cstm %></li>
         <%;}
-            User u = new User(987654, "pop", "pass", userdao.convertToList(""));
+            User u = new User(987654, "pop", "passo", userdao.convertToList(""), true);
             userdao.newUser(u);
             List<User> userList = userdao.getAllUsers();
             for(User user: userList){

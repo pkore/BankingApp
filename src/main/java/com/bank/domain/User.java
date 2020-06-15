@@ -18,12 +18,14 @@ public class User {
     private String username;
     private String password;
     private List<Transaction> transaction;
+    private boolean active;
 
-    public User(int account_no, String username, String password, List<Transaction> transactions) {
+    public User(int account_no, String username, String password, List<Transaction> transactions, boolean active) {
         this.account = account_no;
         this.username = username;
         this.password = password;
         this.transaction = transactions;
+        this.active = active;
     }
 
     public User() {
@@ -31,6 +33,7 @@ public class User {
         username = "";
         password = "";
         transaction = new ArrayList<>();
+        active = false;
     }
 
     public String getUsername() {
@@ -57,8 +60,16 @@ public class User {
         return transaction;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     @Override
     public String toString() {
-        return "User{" + "account=" + account + ", username=" + username + ", password=" + password + '}';
+        return "User{" + "account=" + account + ", username=" + username + ", password=" + password + ", active=" + active + '}';
     }
 }

@@ -49,7 +49,8 @@ public class UserDao {
                 String password = results.getString("password");
                 String transaction = results.getString("transaction");
                 List<Transaction> tr = convertToList(transaction);
-                User user = new User(account, username, password, tr);
+                boolean active = results.getBoolean("active");
+                User user = new User(account, username, password, tr, active);
                 users.add(user);
             }
 	} catch (SQLException e) {
@@ -128,7 +129,8 @@ public class UserDao {
 		int account = results.getInt("account");
                 String password = results.getString("password");
                 String tr = results.getString("transaction");
-                User u = new User(account, username, password, convertToList(tr));
+                boolean active = results.getBoolean("active");
+                User u = new User(account, username, password, convertToList(tr), active);
                 users.add(u);
             }
 	} catch (SQLException e) {
@@ -152,7 +154,8 @@ public class UserDao {
 		String username = results.getString("login");
                 String password = results.getString("password");
                 String tr = results.getString("transaction");
-                User u = new User(account, username, password, convertToList(tr));
+                boolean active = results.getBoolean("active");
+                User u = new User(account, username, password, convertToList(tr), active);
                 users.add(u);
             }
 	} catch (SQLException e) {
@@ -212,11 +215,12 @@ public class UserDao {
         }
         
         try (Connection conn = DriverManager.getConnection(dbdriver, dbuser, dbpass);
-                PreparedStatement prepStm = conn.prepareStatement("INSERT INTO users (account, login, password, transaction) values (?,?,?,?);");) {
+                PreparedStatement prepStm = conn.prepareStatement("INSERT INTO users (account, login, password, transaction, active) values (?,?,?,?,?);");) {
             prepStm.setInt(1, u.getAccount());
             prepStm.setString(2, u.getUsername());
             prepStm.setString(3, u.getPassword());
             prepStm.setString(4, convertToString(u.getTransaction()));
+            prepStm.setBoolean(5, u.isActive());
             prepStm.execute();
         } catch(SQLException e){
             e.printStackTrace();
@@ -227,33 +231,37 @@ public class UserDao {
         String userName = userObject.getUsername(); //Assign user entered values to temporary variables.
         String password = userObject.getPassword();
          
-        try{
-            Connection con = DriverManager.getConnection(this.dbdriver,this.dbuser, this.dbpass); //attempting to connect to MySQL database
-            Statement statement = con.createStatement(); //Statement is used to write queries. Read more about it.
-            ResultSet resultSet = statement.executeQuery("SELECT login,password from users"); //the table name is users and userName,password are columns. Fetching all the records and storing in a resultSet.
- 
-            while(resultSet.next()){
-                String userNameDB = resultSet.getString("login"); //fetch the values present in database
-                String passwordDB = resultSet.getString("password");
- 
-                if(userName.equals(userNameDB) && password.equals(passwordDB)){
-                    return "SUCCESS"; ////If the user entered values are already present in the database, which means user has already registered so return a SUCCESS message.
-                }
-            }
-        }catch(SQLException e){
-                e.printStackTrace();
-                // out.print("FAILED");
-            }
-        return "Invalid user credentials"; // Return appropriate message in case of failure
+//        try{
+//            Connection con = DriverManager.getConnection(this.dbdriver,this.dbuser, this.dbpass); //attempting to connect to MySQL database
+//            Statement statement = con.createStatement(); //Statement is used to write queries. Read more about it.
+//            ResultSet resultSet = statement.executeQuery("SELECT login,password from users"); //the table name is users and userName,password are columns. Fetching all the records and storing in a resultSet.
+// 
+//            while(resultSet.next()){
+//                String userNameDB = resultSet.getString("login"); //fetch the values present in database
+//                String passwordDB = resultSet.getString("password");
+// 
+//                if(userName.equals(userNameDB) && password.equals(passwordDB)){
+//                    return "SUCCESS"; ////If the user entered values are already present in the database, which means user has already registered so return a SUCCESS message.
+//                }
+//            }
+//        }catch(SQLException e){
+//                e.printStackTrace();
+//                // out.print("FAILED");
+//            }
+        User dbuser = getUser(userName);
+        if(dbuser.getAccount() != 0 && dbuser.getPassword().equals(password) &&dbuser.isActive()){
+            return "SUCCESS" + dbuser.toString();
+        }
+        return "Invalid user credentials" + dbuser.toString(); // Return appropriate message in case of failure
     }
     
     public String authenticateCustomer(Customer cstm){
         int account = cstm.getAccount();
         Customer dbcstm = getCustomer(account);
-        if(cstm.getPhone().equals(dbcstm.getPhone()) && cstm.getEmail().equals(dbcstm.getEmail())){
+        if(dbcstm.getAccount()!=0 && cstm.getPhone().equals(dbcstm.getPhone()) && cstm.getEmail().equals(dbcstm.getEmail())){
             return "SUCCESS";
         } else {
-            return "Please enter registered email and phone";
+            return "Please enter registered email and phone for valid account";
         }
     }
     
@@ -282,13 +290,12 @@ public class UserDao {
             dbuser = getUser(login);
         }
         String password = generateRandomString();
-        User u = new User(cstm.getAccount(), login, password, convertToList(""));
+        User u = new User(cstm.getAccount(), login, password, convertToList(""), false);
         return u;
     }
     
     public void sendCredentials(Customer cstm){
         User u = getUser(cstm.getAccount());
-        
     }
 }
 
