@@ -214,7 +214,7 @@ public class UserDao {
         }
     }
     
-    private String convertToString(List<Transaction> tr){
+    public String convertToString(List<Transaction> tr){
         String contents = "";
 	if (tr.isEmpty()) {
             return contents;
@@ -270,38 +270,23 @@ public class UserDao {
     public String authenticateUser(User userObject){
         String userName = userObject.getUsername(); //Assign user entered values to temporary variables.
         String password = userObject.getPassword();
-         
-//        try{
-//            Connection con = DriverManager.getConnection(this.dbdriver,this.dbuser, this.dbpass); //attempting to connect to MySQL database
-//            Statement statement = con.createStatement(); //Statement is used to write queries. Read more about it.
-//            ResultSet resultSet = statement.executeQuery("SELECT login,password from users"); //the table name is users and userName,password are columns. Fetching all the records and storing in a resultSet.
-// 
-//            while(resultSet.next()){
-//                String userNameDB = resultSet.getString("login"); //fetch the values present in database
-//                String passwordDB = resultSet.getString("password");
-// 
-//                if(userName.equals(userNameDB) && password.equals(passwordDB)){
-//                    return "SUCCESS"; ////If the user entered values are already present in the database, which means user has already registered so return a SUCCESS message.
-//                }
-//            }
-//        }catch(SQLException e){
-//                e.printStackTrace();
-//                // out.print("FAILED");
-//            }
         User dbuser = getUser(userName);
         if(dbuser.getAccount() != 0 && dbuser.getPassword().equals(password) &&dbuser.isActive()){
-            return "SUCCESS" + dbuser.toString();
+            return "SUCCESS";
         }
-        return "Invalid user credentials" + dbuser.toString(); // Return appropriate message in case of failure
+        return "Invalid user credentials."; // Return appropriate message in case of failure
     }
     
     public String authenticateCustomer(Customer cstm){
         int account = cstm.getAccount();
         Customer dbcstm = getCustomer(account);
+        if (dbcstm.getAccount()==0){
+            return "Please enter proper bank account number.";
+        }
         if(dbcstm.getAccount()!=0 && cstm.getPhone().equals(dbcstm.getPhone()) && cstm.getEmail().equals(dbcstm.getEmail())){
             return "SUCCESS";
         } else {
-            return "Please enter registered email and phone for valid account";
+            return "Please enter registered email and phone for valid account.";
         }
     }
     
@@ -353,7 +338,7 @@ public class UserDao {
     public void updateTransaction(int account, int id){
         User u = getUser(account);
         String tr = convertToString(u.getTransaction());
-        String newtr = Integer.toString(id) + tr;
+        String newtr = Integer.toString(id) + ":"+tr;
         try (Connection conn = DriverManager.getConnection(dbdriver,dbuser,dbpass);
 	 PreparedStatement stm = conn.prepareStatement("UPDATE users SET transaction=? WHERE account=?");
 	 ) {	

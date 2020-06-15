@@ -17,10 +17,10 @@ public class User {
     private int account;
     private String username;
     private String password;
-    private List<Transaction> transaction;
+    private List transaction;
     private boolean active;
 
-    public User(int account_no, String username, String password, List<Transaction> transactions, boolean active) {
+    public User(int account_no, String username, String password, List transactions, boolean active) {
         this.account = account_no;
         this.username = username;
         this.password = password;
@@ -32,7 +32,7 @@ public class User {
         account = 0;
         username = "";
         password = "";
-        transaction = new ArrayList<>();
+        transaction = new ArrayList<String>();
         active = false;
     }
 
