@@ -227,6 +227,24 @@ public class UserDao {
         }
     }
     
+    public int newTransaction(int source, int dest, double value){
+        try (Connection conn = DriverManager.getConnection(dbdriver, dbuser, dbpass);
+                PreparedStatement prepStm = conn.prepareStatement("INSERT INTO transactions (source, dest, value) values (?,?,?);", Statement.RETURN_GENERATED_KEYS);) {
+            prepStm.setInt(1, source);
+            prepStm.setInt(2, dest);
+            prepStm.setDouble(3, value);
+            prepStm.execute();
+            try (ResultSet generatedKeys = prepStm.getGeneratedKeys()) {
+                return generatedKeys.getInt(1);
+            } catch (SQLException e){
+                e.printStackTrace();
+            }
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
+        return -1;
+    }
+    
     public String authenticateUser(User userObject){
         String userName = userObject.getUsername(); //Assign user entered values to temporary variables.
         String password = userObject.getPassword();
@@ -296,6 +314,53 @@ public class UserDao {
     
     public void sendCredentials(Customer cstm){
         User u = getUser(cstm.getAccount());
+    }
+    
+    private void updateBalance(int account, double value){
+        try (Connection conn = DriverManager.getConnection(dbdriver,dbuser,dbpass);
+	 PreparedStatement stm = conn.prepareStatement("UPDATE customers SET balance=? WHERE account=?");
+	 ) {	
+            stm.setDouble(1, value);
+            stm.setInt(2, account);
+            stm.execute();
+	} catch (SQLException e) {
+            throw new RuntimeException(e); 
+	}
+    }
+    
+    public void updateTransaction(int account, int id){
+        User u = getUser(account);
+        String tr = convertToString(u.getTransaction());
+        String newtr = Integer.toString(id) + tr;
+        try (Connection conn = DriverManager.getConnection(dbdriver,dbuser,dbpass);
+	 PreparedStatement stm = conn.prepareStatement("UPDATE users SET transaction=? WHERE account=?");
+	 ) {	
+            stm.setString(1, newtr);
+            stm.setInt(2, account);
+            stm.execute();
+	} catch (SQLException e) {
+            throw new RuntimeException(e); 
+	}
+    }
+    
+    public String sendMoney(String login, int dest, double value){
+        User suser = getUser(login);
+        Customer dcstm = getCustomer(dest);
+        if(dcstm.getAccount() == 0) return "Invalid Destination account";
+        else{
+            Customer cstm = getCustomer(suser.getAccount());
+            if(cstm.getBalance() <= value) return "Insufficient Balance";
+            else{
+                double sbal = cstm.getBalance();
+                double dbal = dcstm.getBalance();
+                updateBalance(dest, dbal + value);
+                updateBalance(suser.getAccount(), sbal - value);
+                int id = newTransaction(suser.getAccount(), dest, value);
+                updateTransaction(suser.getAccount(), id);
+                updateTransaction(dest, id);
+                return "SUCCESS";
+            }
+        }
     }
 }
 
