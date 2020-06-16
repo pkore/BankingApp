@@ -292,8 +292,8 @@ public class UserDao {
     public String authenticateUser(User userObject){
         String userName = userObject.getUsername(); //Assign user entered values to temporary variables.
         String password = userObject.getPassword();
-        User dbuser = getUser(userName);
-        if(dbuser.getAccount() != 0 && dbuser.getPassword().equals(password) &&dbuser.isActive()){
+        User duser = getUser(userName);
+        if(duser.getAccount() != 0 && duser.getPassword().equals(password) &&duser.isActive()){
             return "SUCCESS";
         }
         return "Invalid user creddentials."; // Return appropriate message in case of failure
@@ -341,10 +341,10 @@ public class UserDao {
             name = name.substring(0, 4);
         }
         String login = name + Integer.toString(rand.nextInt(2000));
-        User dbuser = getUser(login);
-        while(dbuser.getAccount() != 0){
+        User duser = getUser(login);
+        while(duser.getAccount() != 0){
             login = name + Integer.toString(rand.nextInt(2000));
-            dbuser = getUser(login);
+            duser = getUser(login);
         }
         String password = generateRandomString();
         User u = new User(cstm.getAccount(), login, password, convertToList(""), false);
@@ -366,6 +366,79 @@ public class UserDao {
             throw new RuntimeException(e); 
 	}
         sendCredentials(cstm);
+    }
+    
+    public String blockUser(int account){
+        try (Connection conn = DriverManager.getConnection(dbdriver,dbuser,dbpass);
+	 PreparedStatement stm = conn.prepareStatement("UPDATE users SET active=false WHERE account=?");
+	 ) {	
+            stm.setInt(1, account);
+            stm.execute();
+	} catch (SQLException e) {
+            throw new RuntimeException(e); 
+	}
+        return "SUCCESS";
+    }
+    
+    public String deleteUser(int account){
+        try (Connection conn = DriverManager.getConnection(dbdriver,dbuser,dbpass);
+	 PreparedStatement stm = conn.prepareStatement("DELETE FROM users WHERE account=?");
+	 ) {	
+            stm.setInt(1, account);
+            stm.execute();
+	} catch (SQLException e) {
+            throw new RuntimeException(e); 
+	}
+        return "SUCCESS";
+    }
+    
+    public String updatePassword(String login, String oldpassword, String newpassword){
+        User u = getUser(login);
+        if(u.getAccount() != 0 && u.isActive()){
+            if(u.getPassword().equals(oldpassword)){
+                try (Connection conn = DriverManager.getConnection(dbdriver,dbuser,dbpass);
+                    PreparedStatement stm = conn.prepareStatement("UPDATE users SET password=? WHERE account=?");
+                ) {	
+                    stm.setString(1, newpassword);
+                    stm.setInt(2, u.getAccount());
+                    stm.execute();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e); 
+                }
+                return "SUCCESS";
+            }
+            else{
+                return "Please enter correct current password";
+            }
+        }
+        else{
+            return "User Not Found";
+        }
+    }
+    
+    public String updateLogin(String login, String newlogin){
+        User u = getUser(login);
+        if(u.getAccount() != 0 && u.isActive()){
+            User duser = getUser(newlogin);
+            if(duser.getAccount() == 0){
+                try (Connection conn = DriverManager.getConnection(dbdriver,dbuser,dbpass);
+                    PreparedStatement stm = conn.prepareStatement("UPDATE users SET login=? WHERE account=?");
+                ) {	
+                    stm.setString(1, newlogin);
+                    stm.setInt(2, u.getAccount());
+                    stm.execute();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e); 
+                }
+                return "SUCCESS";
+            }
+            else{
+                return "This username is already taken.";
+            }
+        }
+        else{
+            return "User Not Found";
+        }
     }
     
     private void updateBalance(int account, double value){
