@@ -17,11 +17,7 @@
     UserDao userdao=DataConnection.getUserDao();
     String login=(String)session.getAttribute("name");
     User u=userdao.getUser(login);
-    List i=u.getTransaction();
-    String l=userdao.convertToString(i);
-    int id=Integer.parseInt(l);
-    Transaction t=userdao.getTransaction(id);
-  //  List<Transaction> transactionList = userdao.getAllTransactions();
+    List<Transaction> i=u.getTransaction();
 %>
 <html>
     <head>
@@ -29,7 +25,12 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>Hello <%= u.getUsername() %></h1>
+        <% for(Transaction t: i){
+        %>
+        <ul>
             <li><%= t %></li>
+        </ul>
+        <%;}%>
     </body>
 </html>

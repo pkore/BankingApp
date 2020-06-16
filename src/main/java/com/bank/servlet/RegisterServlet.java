@@ -32,7 +32,7 @@ public class RegisterServlet extends HttpServlet {
          String phone = request.getParameter("phone");
          
          UserDao userDao = DataConnection.getUserDao();
-         Customer cstm = userDao.getCustomer(account);
+         Customer cstm = new Customer(account, "", email, phone, 0);
         //Using Java Beans - An easiest way to play with group of related data
          
          String customerValidate=userDao.authenticateCustomer(cstm);//The core Logic of the Registration application is present here. We are going to insert user data in to the database.

@@ -116,8 +116,12 @@ public class DatabaseInitialize {
 		prepStm.execute();
             }
             
-            try (PreparedStatement prepStm = conn.prepareStatement("INSERT INTO transactions (id, source, dest, value) values (1234,0,0,0);")){
+            try (PreparedStatement prepStm = conn.prepareStatement("ALTER TABLE transactions AUTO_INCREMENT = 1111;")){
                 prepStm.execute();
+            }
+            
+            try (PreparedStatement prepStm = conn.prepareStatement("CREATE TABLE admins (login varchar(25) primary key, password varchar(30));")) {
+		prepStm.execute();
             }
             
             for(int i=0; i<5; i++)
@@ -125,9 +129,16 @@ public class DatabaseInitialize {
                 int user = rand.nextInt(userList.size());
                 String login = userdao.getUser(userList.get(user).getAccount()).getUsername();
                 int dest = cstmList.get(rand.nextInt(userList.size())).getAccount();
-                System.out.println(login + Integer.toString(dest));
                 userdao.sendMoney(login, dest, rand.nextInt(1000));
             }
+            int user1 = rand.nextInt(userList.size());
+            String login = userdao.getUser(userList.get(user1).getAccount()).getUsername();
+            int user2 = rand.nextInt(userList.size());
+            int dest = userList.get(user2).getAccount();
+            userdao.sendMoney(login, dest, rand.nextInt(1000));
+            
+            
+            
             
 	} catch (SQLException e) {
             e.printStackTrace();

@@ -115,6 +115,18 @@ public class UserDao {
         return tr;
     }
     
+    public String convertToString(List<Transaction> tr){
+        String contents = "";
+	if (tr.isEmpty()) {
+            return contents;
+	}
+	for (Transaction t : tr ) {
+            contents = contents + t.getId() + ":";
+	}
+	contents = contents.substring(0, contents.length()-1);
+	return contents;
+    }
+    
     public Transaction getTransaction(int id){
         List<Transaction> tr = new ArrayList<>();
 	try (Connection conn = DriverManager.getConnection(dbdriver,dbuser,dbpass);
@@ -201,7 +213,7 @@ public class UserDao {
                 String phone = results.getString("phone");
                 String email = results.getString("email");
                 double balance = results.getDouble("balance");
-                Customer cstm = new Customer(account, name, phone, email, balance);
+                Customer cstm = new Customer(account, name, email, phone, balance);
                 cstmList.add(cstm);
             }
 	} catch (SQLException e) {
@@ -214,16 +226,26 @@ public class UserDao {
         }
     }
     
-    public String convertToString(List<Transaction> tr){
-        String contents = "";
-	if (tr.isEmpty()) {
-            return contents;
+    public Admin getAdmin(String login){
+        List<Admin> adminList = new ArrayList<>();
+	try (Connection conn = DriverManager.getConnection(dbdriver,dbuser,dbpass);
+	 PreparedStatement stm = conn.prepareStatement("SELECT * FROM admins WHERE login = ?");
+	 ) {	
+            stm.setString(1, login);
+            ResultSet results = stm.executeQuery();
+            while (results.next()) {
+                String password = results.getString("password");
+                Admin a = new Admin(login, password);
+                adminList.add(a);
+            }
+	} catch (SQLException e) {
+            throw new RuntimeException(e); 
 	}
-	for (Transaction t : tr ) {
-            contents = contents + t.getId() + ":";
-	}
-	contents = contents.substring(0, contents.length()-1);
-	return contents;
+        if(adminList.isEmpty()){
+            return new Admin();
+        } else {
+            return adminList.get(0);
+        }
     }
     
     public void newUser(User u){
@@ -277,16 +299,26 @@ public class UserDao {
         return "Invalid user credentials."; // Return appropriate message in case of failure
     }
     
+    public String authenticateAdmin(Admin admin){
+        String userName = admin.getLogin(); //Assign user entered values to temporary variables.
+        String password = admin.getPassword();
+        Admin dbadmin = getAdmin(userName);
+        if(dbadmin.getLogin() != "" && dbadmin.getPassword().equals(password)){
+            return "SUCCESS";
+        }
+        return "Invalid admin credentials."; // Return appropriate message in case of failure
+    }
+    
     public String authenticateCustomer(Customer cstm){
         int account = cstm.getAccount();
         Customer dbcstm = getCustomer(account);
         if (dbcstm.getAccount()==0){
-            return "Please enter proper bank account number.";
+            return "Please enter valid bank account number.";
         }
-        if(dbcstm.getAccount()!=0 && cstm.getPhone().equals(dbcstm.getPhone()) && cstm.getEmail().equals(dbcstm.getEmail())){
+        if(cstm.getPhone().equals(dbcstm.getPhone()) && cstm.getEmail().equals(dbcstm.getEmail())){
             return "SUCCESS";
         } else {
-            return "Please enter registered email and phone for valid account.";
+            return "Please enter registered email and phone for your account." + cstm.getPhone() + dbcstm.getPhone() + cstm.getEmail() + dbcstm.getEmail();
         }
     }
     
@@ -323,6 +355,19 @@ public class UserDao {
         User u = getUser(cstm.getAccount());
     }
     
+    public void approveUser(Customer cstm){
+        int account = cstm.getAccount();
+        try (Connection conn = DriverManager.getConnection(dbdriver,dbuser,dbpass);
+	 PreparedStatement stm = conn.prepareStatement("UPDATE users SET active=true WHERE account=?");
+	 ) {	
+            stm.setInt(1, account);
+            stm.execute();
+	} catch (SQLException e) {
+            throw new RuntimeException(e); 
+	}
+        sendCredentials(cstm);
+    }
+    
     private void updateBalance(int account, double value){
         try (Connection conn = DriverManager.getConnection(dbdriver,dbuser,dbpass);
 	 PreparedStatement stm = conn.prepareStatement("UPDATE customers SET balance=? WHERE account=?");
@@ -338,7 +383,7 @@ public class UserDao {
     public void updateTransaction(int account, int id){
         User u = getUser(account);
         String tr = convertToString(u.getTransaction());
-        String newtr = Integer.toString(id) + ":"+tr;
+        String newtr = Integer.toString(id) + ":" + tr;
         try (Connection conn = DriverManager.getConnection(dbdriver,dbuser,dbpass);
 	 PreparedStatement stm = conn.prepareStatement("UPDATE users SET transaction=? WHERE account=?");
 	 ) {	

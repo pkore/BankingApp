@@ -17,10 +17,10 @@ public class User {
     private int account;
     private String username;
     private String password;
-    private List transaction;
+    private List<Transaction> transaction;
     private boolean active;
 
-    public User(int account_no, String username, String password, List transactions, boolean active) {
+    public User(int account_no, String username, String password, List<Transaction> transactions, boolean active) {
         this.account = account_no;
         this.username = username;
         this.password = password;
@@ -32,7 +32,7 @@ public class User {
         account = 0;
         username = "";
         password = "";
-        transaction = new ArrayList<String>();
+        transaction = new ArrayList<Transaction>();
         active = false;
     }
 
@@ -70,6 +70,10 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" + "account=" + account + ", username=" + username + ", password=" + password + ", active=" + active + '}';
+        String ret = "User{" + "account=" + account + ", username=" + username + ", password=" + password + ", active=" + active + '}';
+        for(Transaction t: transaction){
+            ret = ret + t.toString();
+        }
+        return ret;
     }
 }

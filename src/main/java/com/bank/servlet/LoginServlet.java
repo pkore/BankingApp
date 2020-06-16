@@ -73,12 +73,12 @@ public class LoginServlet extends HttpServlet {
          {
           HttpSession session=request.getSession();
           session.setAttribute("name",username);
-          request.getRequestDispatcher("/index.jsp").forward(request, response);//RequestDispatcher is used to send the control to the invoked page.
+          request.getRequestDispatcher("/UserTransac.jsp").forward(request, response);//RequestDispatcher is used to send the control to the invoked page.
          }
          else
          {
              request.setAttribute("errMessage", userValidate); //If authenticateUser() function returnsother than SUCCESS string it will be sent to Login page again. Here the error message returned from function has been stored in a errMessage key.
-             request.getRequestDispatcher("/UserTransac.jsp").forward(request, response);//forwarding the request
+             request.getRequestDispatcher("/login.jsp").forward(request, response);//forwarding the request
          }
     }
 
