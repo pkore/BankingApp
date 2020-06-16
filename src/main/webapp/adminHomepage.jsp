@@ -1,21 +1,15 @@
 <%-- 
-    Document   : allCustomer
-    Created on : 16-Jun-2020, 4:43:48 pm
+    Document   : adminHomepage
+    Created on : 17-Jun-2020, 2:01:41 am
     Author     : Admin
 --%>
 
-<%@page import="com.bank.domain.User"%>
-<%@page import="com.bank.domain.Customer"%>
-<%@page import="java.util.List"%>
-<%@page import="com.bank.domain.DataConnection"%>
-<%@page import="com.bank.domain.UserDao"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-18">
-  <title>Transaction Details</title>
+  <title>Admin Home page</title>
     
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
@@ -32,10 +26,7 @@
 body{
   background-color: #84b8f0;
 }
-p{
-	text-align: center;
-	font-size: 20px;
-}
+
 
 
 
@@ -81,70 +72,99 @@ nav .start-home, a:nth-child(1):hover~.animation {
 	left: 0;
 	background-color: #1abc9c;
 }
-table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 80%;
-  position: center;
+h2{
+	text-align: center;
+	font-size: 50px;
 }
 
-td, th {
 
-  text-align: left;
-  padding: 8px;
-}
+.grid {
+  		overflow: hidden;
+			padding: 0.5em 0 0 0.5em;
+			max-width: 76em;
+			margin: 0 auto;
+		}
+		.grid li {
+			padding: 0 0.5em 0.5em 0;
+		}
+		.grid li > div {
+			background: #84b8f0;
+			padding: 7em 2em;
+			text-align: center;
+		}
+		.grid li a {
+			color: black;
+		}
+		
+		@media all and (min-width: 27em) {
+			.grid li {
+				width: 50%;
+				float: left;
+			}
+		}
+		
+		@media all and (min-width: 40em) {
+			.grid li {
+				width: 33.3333333%;
+			}
+			.grid li.wide {
+				width: 66.666666%;
+			}
+		}
+		@media all and (min-width: 60em) {
+			.grid li {
+				width: 25%;
+			}
+			.grid li.wide {
+				width: 50%;
+			}
+		}
 
-tr:nth-child(even) {
-    background-color: #dddddd;
-}
 
 </style>
 </head>
 <body>
-	<nav>
-	<a href="#"><i class="fa fa-empire"></i></a>
+<nav>
+	<a href="admin_home.html"><i class="fa fa-empire"></i></a>
 	
 	<div class="animation start-home"></div>
 </nav>
-<br>
-<div class="jumbotron ">
-	<p>Details of all Customers</p>
-</div>
-<br>
-<% 
-    UserDao userdao=DataConnection.getUserDao();
-    List<Customer> cstmList = userdao.getAllCustomers();
-%>
-<table align="center">
-	<
-	<tr>
-		<th>Name</th>
-		<th>Account Number</th>
-		<th>Contact Number</th>
-		<th>E-mail Id</th>
-		<th>Balance</th>
-		<th>Netbanking status</th>
-	</tr>
-        <% 
-            for(Customer cstm: cstmList){
-            User u=userdao.getUser(cstm.getAccount());
-        %>
-        
-	<tr>
-                <th><%= cstm.getName() %></th>
-                <th><%= cstm.getAccount() %></th>
-		<th><%= cstm.getPhone() %></th>
-		<th><%= cstm.getEmail() %></th>
-		<th><%= cstm.getBalance() %></th>
-		<% if(u.isActive()){%>
-                    <th>Active</th>
-                <% }else{%><th>Inactive</th>
-                <%}%>
-	</tr>
-	<%;}%>
 
+<p></p>
+<div class="jumbotron ">
+
+  <h2>Welcome Admin</h2>
+
+</div>
+
+<p></p>
+<section id="pattern" class="pattern">
+  	<ul class="grid">
+			<li>
+				<div>
+					<a href="/Bank/searchAccount.jsp">Search Account Details</a>
+				</div>
+			</li>
+			<li>
+				<div>
+					<a href="/Bank/allCustomer.jsp">View Details of all Customers</a>
+				</div>
+			</li>
+			<li>
+				<div>
+					<a href="/Bank/allActiveUsers.jsp">View Details of all Active Customers</a>
+				</div>
+			</li>
+			<li>
+				<div>
+					<a href="/Bank/inActiveUsers.jsp">Approve Inactive Users</a>
+				</div>
+				</li>
+			</ul>
+		</section>
 
 
 
 </body>
 </html>
+

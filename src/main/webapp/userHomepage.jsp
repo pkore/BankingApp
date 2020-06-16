@@ -1,32 +1,20 @@
 <%-- 
-    Document   : UserTransac
-    Created on : 16-Jun-2020, 12:59:59 am
+    Document   : userHomepage
+    Created on : 17-Jun-2020, 12:36:08 am
     Author     : Admin
 --%>
 
 <%@page import="com.bank.domain.Customer"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="com.bank.domain.Transaction"%>
 <%@page import="com.bank.domain.User"%>
-<%@page import="java.util.List"%>
 <%@page import="com.bank.domain.DataConnection"%>
+<%@page import="com.bank.domain.UserDao"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="com.bank.domain.UserDao" %>
-
 <!DOCTYPE html>
-<% 
-    UserDao userdao=DataConnection.getUserDao();
-    String login=(String)session.getAttribute("name");
-    User u=userdao.getUser(login);
-    List<Transaction> i=u.getTransaction();
-    Customer cstm=userdao.getCustomer(u.getAccount());
-    double balance=cstm.getBalance();
-%>
-
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-18">
-  <title>Transaction Details</title>
+  <title>Home Page</title>
     
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
@@ -117,27 +105,36 @@ nav .start-contact, a:nth-child(5):hover~.animation {
 	background-color: #1abc9c;
 }
 
-table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 80%;
-  position: center;
+b
+
+.grid-container {
+
+  display: grid;
+  grid-template-columns: auto;
+  grid-gap: 15px;
+  
+  padding: 20px;
 }
 
-td, th {
+.group{
+	margin-bottom: 10px;
+	position: relative;
+	border-bottom: 2px solid #444;
+}
+.group i{
+	position: absolute;
 
-  text-align: left;
-  padding: 8px;
+	
+
 }
 
-tr:nth-child(even) {
-  background-color: #dddddd;
+.grid-container > div {
+  border-radius: 25px;
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  padding: 20px 4;
+  font-size: 35px;
 }
-
-select{
-	background-color: #84b8f0;
-}
-
 </style>
 </head>
 <body>
@@ -151,6 +148,12 @@ select{
 </nav>
 
 <p></p>
+<%
+    UserDao userdao=DataConnection.getUserDao();
+    String login=(String)session.getAttribute("name");
+    User u=userdao.getUser(login);
+    Customer cstm =userdao.getCustomer(u.getAccount());
+%>
 <div class="jumbotron ">
   <h2>User details</h2>
   <p>Account no: <%= cstm.getAccount()%></p>
@@ -160,38 +163,15 @@ select{
   <p>Contact no: <%= cstm.getPhone()%></p> 
 </div>
 
-<p></p>
 
-<table align="center">
-    
-	<tr>
-		<th>Transaction ID</th>
-		<th>Transaction Account</th>
-		<th>Credit Amount</th>
-		<th>Debit Amount</th>
-		<th>Balance</th>
-	</tr>
-        <% 
-            for(Transaction t: i){
-        %>
-	<tr>
-            <th><%= t.getId() %> </th>
-	<%
-            if(u.getAccount()==t.getSource()){%>
-                <th><%= t.getDest() %></th>
-                <th>-</th>
-                <th><%= t.getValue() %></th>
-                <th><%= balance%><th>
-                <%
-                    balance=balance-t.getValue(); 
-            }else{%>
-                <th><%= t.getSource() %></th>
-                <th><%= t.getValue() %></th>
-                <th>-</th>
-                <th><%= balance%><th>
-        </tr>
-            <%   balance=balance+t.getValue();
-            };}%>
+<div class="grid-container">
+  <div class="group"><a href="/Bank/userTransac.jsp">Show Transactions</a></div>
+  <div class="group"><a href="/Bank/conductTransaction.jsp">Make a New Transaction</a></div>
+  <div class="group"><a href="#">Apply for Credit Card</a></div>
+  <div class="group"><a href="#">Change Username/Password</a></div>  
+
+</div>
 
 </body>
 </html>
+

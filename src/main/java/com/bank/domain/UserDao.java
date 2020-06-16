@@ -296,7 +296,7 @@ public class UserDao {
         if(duser.getAccount() != 0 && duser.getPassword().equals(password) &&duser.isActive()){
             return "SUCCESS";
         }
-        return "Invalid user creddentials."; // Return appropriate message in case of failure
+        return "Invalid user credentials."; // Return appropriate message in case of failure
     }
     
     public String authenticateAdmin(Admin admin){
