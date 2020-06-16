@@ -296,7 +296,7 @@ public class UserDao {
         if(dbuser.getAccount() != 0 && dbuser.getPassword().equals(password) &&dbuser.isActive()){
             return "SUCCESS";
         }
-        return "Invalid user credentials."; // Return appropriate message in case of failure
+        return "Invalid user creddentials."; // Return appropriate message in case of failure
     }
     
     public String authenticateAdmin(Admin admin){
@@ -414,7 +414,7 @@ public class UserDao {
                 int id = newTransaction(suser.getAccount(), dest, value);
                 updateTransaction(suser.getAccount(), id);
                 updateTransaction(dest, id);
-                return "SUCCESS:" + Integer.toString(id);
+                return "SUCCESS";
             }
         }
     }

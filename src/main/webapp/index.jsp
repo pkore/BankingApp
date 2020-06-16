@@ -38,8 +38,8 @@
             for(Transaction tr: trList){
         %>
             <li><%= tr %></li>
-        <%;}
-            List<User> userList = userdao.getAllUsers();
+        
+          <%;}  List<User> userList = userdao.getAllUsers();
             for(User user: userList){
         %>
             <li><%= user %></li>

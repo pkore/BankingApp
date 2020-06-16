@@ -73,7 +73,7 @@ public class LoginServlet extends HttpServlet {
          {
           HttpSession session=request.getSession();
           session.setAttribute("name",username);
-          request.getRequestDispatcher("/UserTransac.jsp").forward(request, response);//RequestDispatcher is used to send the control to the invoked page.
+          request.getRequestDispatcher("/userTransac.jsp").forward(request, response);//RequestDispatcher is used to send the control to the invoked page.
          }
          else
          {
