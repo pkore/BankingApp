@@ -131,7 +131,7 @@ select{
 
 </style>
 <script>
-func validate(){
+function validate(){
     var account = document.form.account.value;
                 if (account.length!=6)
                  { 
@@ -139,6 +139,25 @@ func validate(){
                  return false; 
                  }
 }    
+function onlynum() { 
+         
+        var tag = document.getElementById("account"); 
+        var res = tag.value; 
+  
+        if (res != '') { 
+            if (isNaN(res)) { 
+                  
+                // Set input value empty 
+                ip.value = ""; 
+                  
+                // Reset the form 
+                fm.reset(); 
+                return false; 
+            } else { 
+                return true 
+            } 
+        } 
+    } 
 </script>
 </head>
 <body>
@@ -153,8 +172,8 @@ func validate(){
 	<div class="wrap">
    <div class="search">
        <form name="form" action="/Bank/searchAccountNext.jsp" onsubmit="return validate()">
-      <input type="number" class="searchTerm" placeholder="Enter Account Number" name="account">
-      <button type="submit" class="searchButton">
+      <input type="number" class="searchTerm" placeholder="Account Number" name="account" id="account" oninput="return onlynum()">
+      <button type="submit" onclick="return validate()" class="searchButton">
         <i class="fa fa-search"></i>
      </button>
       </form>
@@ -223,7 +242,12 @@ func validate(){
             <th><%= balance %></th>
             </tr>
             <%}else{%>
-            <p>Invalid account number.</p>
+            <div class="jumbotron ">
+	<div class="wrap">
+            <div class="search">
+                <p style="color:red">Invalid account number</p>
+            </div></div>
+            
             <%}%>
 	
 </body>

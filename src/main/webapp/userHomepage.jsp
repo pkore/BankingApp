@@ -139,7 +139,7 @@ b
 </head>
 <body>
 <nav>
-	<a href="#"><i class="fa fa-empire"></i></a>
+	<a href="/Bank/userHomepage.jsp"><i class="fa fa-empire"></i></a>
 	<a href="/Bank/userHomepage.jsp">Home</a>
 	<a href="#">About</a>
 	<a href="#">Contact Us</a>
@@ -168,7 +168,7 @@ b
   <div class="group"><a href="/Bank/userTransac.jsp">Show Transactions</a></div>
   <div class="group"><a href="/Bank/conductTransaction.jsp">Make a New Transaction</a></div>
   <div class="group"><a href="#">Apply for Credit Card</a></div>
-  <div class="group"><a href="#">Change Username/Password</a></div>  
+  <div class="group"><a href="/Bank/changePassword.jsp">Change Username/Password</a></div>  
 
 </div>
 

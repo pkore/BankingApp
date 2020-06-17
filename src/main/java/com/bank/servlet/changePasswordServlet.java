@@ -10,7 +10,6 @@ import com.bank.domain.DataConnection;
 import com.bank.domain.UserDao;
 import java.io.IOException;
 import java.io.PrintWriter;
-import static java.lang.System.out;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,18 +21,26 @@ import javax.servlet.http.HttpSession;
  *
  * @author Admin
  */
-@WebServlet(name = "approveUserServlet", urlPatterns = {"/approveUserServlet"})
-public class approveUserServlet extends HttpServlet {
+@WebServlet(name = "changePasswordServlet", urlPatterns = {"/changePasswordServlet"})
+public class changePasswordServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String oldPass=request.getParameter("currentPass");
+        String newPass=request.getParameter("newPass");
         UserDao userdao=DataConnection.getUserDao();
         HttpSession session=request.getSession(false);
-        Customer cstm=(Customer) session.getAttribute("customer");
-        userdao.approveUser(cstm);
-        session.removeAttribute("customer");
-        request.getRequestDispatcher("/inActiveUsers.jsp").forward(request, response);//RequestDispatcher is used to send the control to the invoked page.
+        String login=(String) session.getAttribute("name");
+        String status=userdao.updatePassword(login,oldPass,newPass);
+        if(status=="SUCCESS"){
+            request.setAttribute("errMessage", "Password updated");
+            request.getRequestDispatcher("/changePassword.jsp").forward(request, response);
+        }else{
+            request.setAttribute("errMessage", status);
+            request.getRequestDispatcher("/changePassword.jsp").forward(request, response);
+        }
     }
 
+    
 }

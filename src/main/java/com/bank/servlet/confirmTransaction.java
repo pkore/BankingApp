@@ -5,7 +5,9 @@
  */
 package com.bank.servlet;
 
+import com.bank.domain.Customer;
 import com.bank.domain.DataConnection;
+import com.bank.domain.User;
 import com.bank.domain.UserDao;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -30,12 +32,14 @@ public class confirmTransaction extends HttpServlet {
       HttpSession session=request.getSession(false); 
       String login=(String)session.getAttribute("name");
       UserDao userdao=DataConnection.getUserDao();
+      User u=userdao.getUser(login);
+      Customer cstm=userdao.getCustomer(u.getAccount());
       int dest=Integer.parseInt(d);
       double value=Double.parseDouble(v);
       String transaction=userdao.sendMoney(login,dest,value);
       if(transaction.equals("SUCCESS")) //If function returns success string then user will be rooted to Home page
          {
-            request.setAttribute("errMessage1", "Transaction sucessful"); 
+            request.setAttribute("errMessage1", "Transaction sucessful.Available balance:"+cstm.getBalance()); 
             request.getRequestDispatcher("/conductTransaction.jsp").include(request, response);
          }
          else

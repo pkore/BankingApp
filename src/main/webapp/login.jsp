@@ -39,7 +39,7 @@
                 <form name="form" action="LoginServlet" method="post" onsubmit="return validate()">
 		<div class="group"><input type="text" placeholder="Username" name="Username"><i class="fa fa-user-circle" aria-hidden="true"></i></i></div>
 		<div class="group"><input type="password" placeholder="Password" name="Password"><i class="fa fa-lock"></i></div>
-		<%=(request.getAttribute("errMessage") == null) ? "": request.getAttribute("errMessage")%>
+		<p style="color:red"><%=(request.getAttribute("errMessage") == null) ? "": request.getAttribute("errMessage")%></p>
                 <button><i class="fa fa-send"></i>Login</button>
                 </form>
 		<p class="fs">Forgot <a href="#">Username</a> / <a href="#">Password</a>?</p>

@@ -23,7 +23,7 @@ public class Email {
   private static final String senderPassword = "bankpassword";//change with your sender password
 
   public static void sendAsHtml(String to, String title, String html) throws MessagingException {
-      System.out.println("Sending email to " + to);
+      //System.out.println("Sending email to " + to);
 
       Session session = createSession();
 
@@ -33,7 +33,7 @@ public class Email {
 
       //sending message
       Transport.send(message);
-      System.out.println("Done");
+      //System.out.println("Done");
   }
 
   private static void prepareEmailMessage(MimeMessage message, String to, String title, String html)

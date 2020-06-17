@@ -112,15 +112,35 @@ p{
 
 </style>
 <script>
-    document.getElementById("c").onclick = function() {validate()};
+    //document.getElementById("c").onclick = function() {validate()};
 function validate(){
     var account = document.form.account.value;
                 if (account.length!=6)
                  { 
-                 alert("Provide a 6 digit bank account number."); 
+                 alert("Provide a 6 digit numeric bank account number."); 
                  return false; 
                  }
 }    
+
+function onlynum() { 
+         
+        var tag = document.getElementById("account"); 
+        var res = tag.value; 
+  
+        if (res != '') { 
+            if (isNaN(res)) { 
+                  
+                // Set input value empty 
+                ip.value = ""; 
+                  
+                // Reset the form 
+                fm.reset(); 
+                return false; 
+            } else { 
+                return true 
+            } 
+        } 
+    } 
 </script>
 </head>
 <body>
@@ -132,13 +152,13 @@ function validate(){
 
 <p></p>
 <div class="jumbotron ">
-	<p>Enter Account Number to get Details</p>
+	<p>Enter Account Number to get details</p>
 	<br>
 	<div class="wrap">
    <div class="search">
        <form name="form" method="post" action="/Bank/searchAccountNext.jsp">
-      <input type="number" class="searchTerm" placeholder="Account Number" name="account">
-      <button type="submit" id="c" class="searchButton">
+           <input type="number" class="searchTerm" placeholder="Account Number" name="account" id="account" oninput="return onlynum()">
+      <button type="submit" onclick="return validate()" class="searchButton">
       <i class="fa fa-search"></i>
       </button>
        </form>
