@@ -125,7 +125,7 @@ h2{
 </head>
 <body>
 <nav>
-	<a href="admin_home.html"><i class="fa fa-empire"></i></a>
+	<a href="/Bank/adminHomepage.jsp"><i class="fa fa-empire"></i></a>
 	
 	<div class="animation start-home"></div>
 </nav>

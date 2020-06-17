@@ -16,16 +16,15 @@
             }
             </script>
     </head>
+    
     <body>
-        <form name="form" method="post" action="conductTransactionServlet" >
+        
         Receiver:<input type="number" name="dest">
         Value:<input type="number" name="value">
         <input type="submit" value="proceed" onclick="demoshow()">
-        </form>
-        <%=(request.getAttribute("errMessage") == null) ? "": request.getAttribute("errMessage")%>
-        <form action="confirmTransaction" method="post">
+        <form name="form" method="post" action="confirmTransaction" >
         <input type="submit" id="p" value="confirm" visibility="hidden">
-        <%=(request.getAttribute("errMessage1") == null) ? "": request.getAttribute("errMessage1")%>
+        <%=(request.getAttribute("errMessage1") == null) ? "": request.getAttribute("errMessage1s")%>
         </form>
     </body>
 </html>

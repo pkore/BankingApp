@@ -25,12 +25,14 @@ public class confirmTransaction extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String value=request.getParameter("value");
-      String dest=request.getParameter("dest");
+      String v=(String)request.getParameter("value");
+      String d=request.getParameter("dest");
       HttpSession session=request.getSession(false); 
       String login=(String)session.getAttribute("name");
       UserDao userdao=DataConnection.getUserDao();
-      String transaction=userdao.sendMoney(login,Integer.parseInt(dest),Integer.parseInt(value));
+      int dest=Integer.parseInt(d);
+      double value=Double.parseDouble(v);
+      String transaction=userdao.sendMoney(login,dest,value);
       if(transaction.equals("SUCCESS")) //If function returns success string then user will be rooted to Home page
          {
             request.setAttribute("errMessage1", "Transaction sucessful"); 

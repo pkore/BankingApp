@@ -121,7 +121,7 @@ button{
 </head>
 <body>
 	<nav>
-	<a href="#"><i class="fa fa-empire"></i></a>
+	<a href="/Bank/adminHomepage.jsp"><i class="fa fa-empire"></i></a>
 	
 	<div class="animation start-home"></div>
 </nav>
@@ -131,7 +131,7 @@ button{
 </div>
 <br>
 <table align="center">
-	<
+	
 	<tr>
 		<th>Name</th>
 		<th>Account Number</th>
@@ -146,6 +146,7 @@ button{
             for(User user: userList){
             if(!user.isActive()){
             Customer cstm=userdao.getCustomer(user.getAccount());
+            session.setAttribute("customer",cstm);
         %>
 	<tr>
 		<th><%= cstm.getName() %></th>
@@ -153,10 +154,9 @@ button{
 		<th><%= cstm.getPhone() %></th>
 		<th><%= cstm.getPhone() %></th>
 		
-		<th><button class="block"><i class="fa fa-check"></i>Accept</button></th>
-		<th><button class="delete"><i class="fa fa-window-close"></i> Decline</button></th>
-
-	</tr>
+                <th><form action="approveUserServlet" method="post"><button class="block"><i class="fa fa-check" ></i>Accept</button></form></th>
+                <th><form action="declineRequest" method="post"><button class="delete"><i class="fa fa-window-close"></i> Decline</button></form>></th>
+        </tr>
         <%;}}%>
 
 

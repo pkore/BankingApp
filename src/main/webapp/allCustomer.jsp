@@ -102,7 +102,7 @@ tr:nth-child(even) {
 </head>
 <body>
 	<nav>
-	<a href="#"><i class="fa fa-empire"></i></a>
+	<a href="/Bank/adminHomepage.jsp"><i class="fa fa-empire"></i></a>
 	
 	<div class="animation start-home"></div>
 </nav>

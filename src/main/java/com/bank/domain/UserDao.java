@@ -468,7 +468,7 @@ public class UserDao {
 	}
     }
     
-    public String sendMoney(String login, int dest, double value){
+    public String sendMoney(String login,int dest, double value){
         User suser = getUser(login);
         Customer dcstm = getCustomer(dest);
         if(dcstm.getAccount() == 0){

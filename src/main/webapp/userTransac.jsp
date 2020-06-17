@@ -145,8 +145,8 @@ select{
 	<a href="#"><i class="fa fa-empire"></i></a>
 	<a href="/Bank/userHomepage.jsp">Home</a>
 	<a href="#">About</a>
-	<a href="#">New Plans</a>
-	<a href="#">Contact</a>
+	<a href="#">Contact Us</a>
+	<a href="/Bank/logoutServlet">Logout</a>
 	<div class="animation start-home"></div>
 </nav>
 
