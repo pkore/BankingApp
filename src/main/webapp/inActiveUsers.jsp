@@ -146,7 +146,7 @@ button{
             for(User user: userList){
             if(!user.isActive()){
             Customer cstm=userdao.getCustomer(user.getAccount());
-            session.setAttribute("customer",cstm);
+            
         %>
 	<tr>
 		<th><%= cstm.getName() %></th>
@@ -157,7 +157,9 @@ button{
                 <th><form action="approveUserServlet" method="post"><button class="block"><i class="fa fa-check" ></i>Accept</button></form></th>
                 <th><form action="declineRequest" method="post"><button class="delete"><i class="fa fa-window-close"></i> Decline</button></form></th>
         </tr>
-        <%;}}%>
+        <%
+            session.setAttribute("customer",cstm);
+    ;}}%>
 
 
 

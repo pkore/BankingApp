@@ -144,7 +144,7 @@ button{
             for(User user: userList){
             if(user.isActive()){
             Customer cstm=userdao.getCustomer(user.getAccount());
-            session.setAttribute("customer",cstm);
+            
         %>	
 	</tr>
 	<tr>
@@ -159,7 +159,9 @@ button{
 
 	</tr>
 	
-        <%;}}%>
+        <%
+            session.setAttribute("customer",cstm);
+    ;}}%>
 
 </table>
 
