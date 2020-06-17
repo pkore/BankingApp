@@ -14,6 +14,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import javax.mail.MessagingException;
 
 /**
  *
@@ -353,6 +354,14 @@ public class UserDao {
     
     public void sendCredentials(Customer cstm){
         User u = getUser(cstm.getAccount());
+        String email = cstm.getEmail();
+        String subject = "IMPORTANT - Netbanking Details";
+        String content = "<h2>Your netbanking details are: </h2><p>Username: " + u.getUsername() + "<br>Password: " + u.getPassword() + "</p>";
+        try{
+            Email.sendAsHtml(email, subject, content);
+        } catch(MessagingException e){
+            e.printStackTrace();
+        }
     }
     
     public void approveUser(Customer cstm){

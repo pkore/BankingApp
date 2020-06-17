@@ -33,9 +33,9 @@ public class approveUserServlet extends HttpServlet {
         Customer cstm=(Customer) session.getAttribute("customer");
          PrintWriter out = response. getWriter();
          out.print(cstm);
-        /*userdao.approveUser(cstm);
+        userdao.approveUser(cstm);
         session.removeAttribute("customer");
         request.getRequestDispatcher("/inActiveUsers.jsp").forward(request, response);//RequestDispatcher is used to send the control to the invoked page.
-    */}
+    }
 
 }

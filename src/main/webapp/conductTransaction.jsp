@@ -10,15 +10,9 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <script>
-            func demoshow(){
-                document.getElementById("test").style.visibility="visible";
-            }
-            </script>
     </head>
     
     <body>
-        
         Receiver:<input type="number" name="dest">
         Value:<input type="number" name="value">
         <input type="submit" value="proceed" onclick="demoshow()">
@@ -26,5 +20,10 @@
         <input type="submit" id="p" value="confirm" visibility="hidden">
         <%=(request.getAttribute("errMessage1") == null) ? "": request.getAttribute("errMessage1s")%>
         </form>
+        <script>
+            func demoshow(){
+                document.getElementById("test").style.visibility="visible";
+            }
+        </script>
     </body>
 </html>

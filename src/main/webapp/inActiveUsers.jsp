@@ -143,22 +143,24 @@ button{
         <%  
             UserDao userdao=DataConnection.getUserDao();
             List<User> userList = userdao.getAllUsers();
+            Customer cstm = new Customer();
+            Customer temp = new Customer();
             for(User user: userList){
             if(!user.isActive()){
-            Customer cstm=userdao.getCustomer(user.getAccount());
-            
+            cstm = temp;
+            temp=userdao.getCustomer(user.getAccount());
+            session.setAttribute("customer",cstm);
         %>
 	<tr>
-		<th><%= cstm.getName() %></th>
+		<th><%= temp.getName() %></th>
 		<th><%= user.getAccount() %></th>
-		<th><%= cstm.getPhone() %></th>
-		<th><%= cstm.getEmail() %></th>
+		<th><%= temp.getPhone() %></th>
+		<th><%= temp.getEmail() %></th>
 		
                 <th><form action="approveUserServlet" method="post"><button class="block"><i class="fa fa-check" ></i>Accept</button></form></th>
                 <th><form action="declineRequest" method="post"><button class="delete"><i class="fa fa-window-close"></i> Decline</button></form></th>
         </tr>
         <%
-            session.setAttribute("customer",cstm);
     ;}}%>
 
 
