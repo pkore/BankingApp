@@ -152,10 +152,10 @@ button{
 		<th><%= cstm.getName() %></th>
 		<th><%= user.getAccount() %></th>
 		<th><%= cstm.getPhone() %></th>
-		<th><%= cstm.getPhone() %></th>
+		<th><%= cstm.getEmail() %></th>
 		
                 <th><form action="approveUserServlet" method="post"><button class="block"><i class="fa fa-check" ></i>Accept</button></form></th>
-                <th><form action="declineRequest" method="post"><button class="delete"><i class="fa fa-window-close"></i> Decline</button></form>></th>
+                <th><form action="declineRequest" method="post"><button class="delete"><i class="fa fa-window-close"></i> Decline</button></form></th>
         </tr>
         <%;}}%>
 

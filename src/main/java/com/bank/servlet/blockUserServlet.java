@@ -26,7 +26,7 @@ public class blockUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       UserDao userdao=DataConnection.getUserDao();
+        UserDao userdao=DataConnection.getUserDao();
         HttpSession session=request.getSession(false);
         Customer cstm=(Customer) session.getAttribute("customer");
         String status=userdao.blockUser(cstm.getAccount());
