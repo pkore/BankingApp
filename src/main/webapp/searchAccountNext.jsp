@@ -206,15 +206,23 @@ func validate(){
                 <th><%= t.getValue() %></th>
                 <th><%= balance%><th>
                 <%
-                    balance=balance-t.getValue(); 
+                    balance=balance+t.getValue(); 
             }else{%>
                 <th><%= t.getSource() %></th>
                 <th><%= t.getValue() %></th>
                 <th>-</th>
                 <th><%= balance%><th>
         </tr>
-            <%   balance=balance+t.getValue();
-            };}}}else{%>
+            <%   balance=balance-t.getValue();
+            };}}%>
+                <tr>
+            <th>-</th>
+            <th>-</th>
+            <th>-</th>
+            <th>-</th>
+            <th><%= balance %></th>
+            </tr>
+            <%}else{%>
             <p>Invalid account number.</p>
             <%}%>
 	

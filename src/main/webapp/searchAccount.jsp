@@ -137,11 +137,11 @@ function validate(){
 	<div class="wrap">
    <div class="search">
        <form name="form" method="post" action="/Bank/searchAccountNext.jsp">
-      <input type="number" class="searchTerm" placeholder="Enter Account Number" name="account">
+      <input type="number" class="searchTerm" placeholder="Account Number" name="account">
       <button type="submit" id="c" class="searchButton">
       <i class="fa fa-search"></i>
       </button>
-       </form>>
+       </form>
    </div>
 </div>
 
