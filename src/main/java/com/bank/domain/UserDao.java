@@ -518,24 +518,11 @@ public class UserDao {
         return "SUCCESS";
     }
     
-    public String printCard(String login){
+    public String updateCard(String login, String status){
         try (Connection conn = DriverManager.getConnection(dbdriver,dbuser,dbpass);
 	 PreparedStatement stm = conn.prepareStatement("UPDATE users SET cardstat=? WHERE login=?");
 	 ) {	
-            stm.setString(1, "printed");
-            stm.setString(2, login);
-            stm.execute();
-	} catch (SQLException e) {
-            throw new RuntimeException(e); 
-	}
-        return "SUCCESS";
-    }
-    
-    public String deliverCard(String login){
-        try (Connection conn = DriverManager.getConnection(dbdriver,dbuser,dbpass);
-	 PreparedStatement stm = conn.prepareStatement("UPDATE users SET cardstat=? WHERE login=?");
-	 ) {	
-            stm.setString(1, "delivered");
+            stm.setString(1, status);
             stm.setString(2, login);
             stm.execute();
 	} catch (SQLException e) {
