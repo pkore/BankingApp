@@ -144,11 +144,10 @@ button{
             Customer cstm = new Customer();
             Customer temp = new Customer();
             for(User user: userList){
-            if(user.getCardStat()!="delivered"){
+            if(!user.getCardStat().equalsIgnoreCase("Card delivered") && !user.getCardStat().equalsIgnoreCase("none")){
             cstm = temp;
             temp=userdao.getCustomer(user.getAccount());
             session.setAttribute("customer",cstm);
-            
         %>
 	<tr>
 		<th><%= temp.getName() %></th>

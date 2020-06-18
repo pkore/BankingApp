@@ -182,6 +182,9 @@ input{
     <% 
     UserDao userdao=DataConnection.getUserDao();
     String login=(String)session.getAttribute("name");
+    if(login==null || login==""){
+        response.sendRedirect("login.jsp");
+    }
     User u=userdao.getUser(login);
     List<Transaction> i=u.getTransaction();
     Customer cstm=userdao.getCustomer(u.getAccount());

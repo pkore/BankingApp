@@ -31,7 +31,7 @@ public class adminATMServlet extends HttpServlet {
         HttpSession session=request.getSession(false);
         Customer cstm=(Customer) session.getAttribute("customer");
         User u=userdao.getUser(cstm.getAccount());
-        if(null != u.getCardStat()){
+        if(!u.getCardStat().equalsIgnoreCase("null")){
             switch (u.getCardStat()) {
             case "ordered":{
                 String status=userdao.updateCard(u.getUsername(),"Request processes");

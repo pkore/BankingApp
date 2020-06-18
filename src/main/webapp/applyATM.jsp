@@ -178,7 +178,7 @@ button i{
 <div class="wrap">
     
 	<div class="login">
-            <%if(u.getCardStat().equalsIgnoreCase("ordered")){%>
+            <%if(!u.getCardStat().equalsIgnoreCase("ordered")){%>
 		<h2>Apply for ATM</h2>
 		<form name="form" method="post" action="atmServlet">
 		<button>Apply</button></form>

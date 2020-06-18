@@ -4,6 +4,12 @@
     Author     : Admin
 --%>
 
+<%@page import="com.bank.domain.Transaction"%>
+<%@page import="com.bank.domain.Customer"%>
+<%@page import="java.util.List"%>
+<%@page import="com.bank.domain.User"%>
+<%@page import="com.bank.domain.DataConnection"%>
+<%@page import="com.bank.domain.UserDao"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -146,12 +152,14 @@ top: 83%;
 <% 
     UserDao userdao=DataConnection.getUserDao();
     String login=(String)session.getAttribute("name");
+    if(login==null || login==""){
+        response.sendRedirect("login.jsp");
+    }
     User u=userdao.getUser(login);
-    List<Transaction> i=u.getTransaction();
     Customer cstm=userdao.getCustomer(u.getAccount());
-    double balance=cstm.getBalance();
 %>
 <body>
+	<nav>
 	<a href="/Bank/userHomepage.jsp"><i class="fa fa-empire"></i></a>
 	<a href="/Bank/userHomepage.jsp">Home</a>
 	<a href="#">About</a>
@@ -167,14 +175,14 @@ top: 83%;
   <p>Name: <%= cstm.getName() %></p>
   <p>Login ID: <%= login %></p>
   <p>E-mail: <%= cstm.getEmail()%></p>
-  <p>Contact no: <%= cstm.getPhone()%></p> 
+  <p>Contact no: <%= cstm.getPhone()%></p>  
 </div>
 <p></p>
 <div class="wrap">
 	<div class="login">
 		
-		<button><a href="/Bank/changeUsername.jsp">Change Username</a></button>
-		<button><a href="/Bank/changePassword.jsp">Change Password</a></button>
+		<a href="/Bank/changeUsername.jsp"><button>Change Username</button></a>
+		<a href="/Bank/changePassword.jsp"><button>Change Password</button></a>
 		
       </div>
   </div>
