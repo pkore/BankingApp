@@ -19,13 +19,15 @@ public class User {
     private String password;
     private List<Transaction> transaction;
     private boolean active;
+    private String cardStat;
 
-    public User(int account_no, String username, String password, List<Transaction> transactions, boolean active) {
+    public User(int account_no, String username, String password, List<Transaction> transactions, boolean active, String cardStat) {
         this.account = account_no;
         this.username = username;
         this.password = password;
         this.transaction = transactions;
         this.active = active;
+        this.cardStat = cardStat;
     }
 
     public User() {
@@ -34,6 +36,7 @@ public class User {
         password = "";
         transaction = new ArrayList<Transaction>();
         active = false;
+        cardStat = "none";
     }
 
     public String getUsername() {
@@ -66,6 +69,14 @@ public class User {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public String getCardStat() {
+        return cardStat;
+    }
+
+    public void setCardStat(String cardStat) {
+        this.cardStat = cardStat;
     }
 
     @Override

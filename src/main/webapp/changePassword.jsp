@@ -23,7 +23,7 @@
 %>
 <head>
 	<meta charset="UTF-18">
-	<title>Forgot</title>
+	<title>Change Password</title>
 	
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -181,7 +181,7 @@ button i{
                      alert("Confirm Password does not match with new password"); 
                  return false; 
                  }
-                 }
+            }
                  
 </script>
 </head>
@@ -213,7 +213,7 @@ button i{
 		<div class="group"><input  type="password" placeholder="Current Password" align="middle" name="currentPass"><i class="fa fa-lock"></i></i></div>
 		<div class="group"><input type="password" placeholder="New Password" name="newPass"><i class="fa fa-lock"></i></div>
 		<div class="group"><input type="password" placeholder="Confirm New Password" name="confPass"><i class="fa fa-lock"></i></div>
-                <button type="button" ><i class="fa fa-send"></i>Confirm</button>
+                <input type="submit" value="Confirm" />
 		</form>
                 <center><p style="color:green"><%=(request.getAttribute("errMessage") == null) ? "": request.getAttribute("errMessage")%></p></center>
       </div>

@@ -51,7 +51,8 @@ public class UserDao {
                 String transaction = results.getString("transaction");
                 List<Transaction> tr = convertToList(transaction);
                 boolean active = results.getBoolean("active");
-                User user = new User(account, username, password, tr, active);
+                String cardStat = results.getString("cardstat");
+                User user = new User(account, username, password, tr, active, cardStat);
                 users.add(user);
             }
 	} catch (SQLException e) {
@@ -164,7 +165,8 @@ public class UserDao {
                 String password = results.getString("password");
                 String tr = results.getString("transaction");
                 boolean active = results.getBoolean("active");
-                User u = new User(account, username, password, convertToList(tr), active);
+                String cardStat = results.getString("cardstat");
+                User u = new User(account, username, password, convertToList(tr), active, cardStat);
                 users.add(u);
             }
 	} catch (SQLException e) {
@@ -189,7 +191,8 @@ public class UserDao {
                 String password = results.getString("password");
                 String tr = results.getString("transaction");
                 boolean active = results.getBoolean("active");
-                User u = new User(account, username, password, convertToList(tr), active);
+                String cardStat = results.getString("cardstat");
+                User u = new User(account, username, password, convertToList(tr), active, cardStat);
                 users.add(u);
             }
 	} catch (SQLException e) {
@@ -259,12 +262,13 @@ public class UserDao {
         }
         
         try (Connection conn = DriverManager.getConnection(dbdriver, dbuser, dbpass);
-                PreparedStatement prepStm = conn.prepareStatement("INSERT INTO users (account, login, password, transaction, active) values (?,?,?,?,?);");) {
+                PreparedStatement prepStm = conn.prepareStatement("INSERT INTO users (account, login, password, transaction, active, cardStat) values (?,?,?,?,?,?);");) {
             prepStm.setInt(1, u.getAccount());
             prepStm.setString(2, u.getUsername());
             prepStm.setString(3, u.getPassword());
             prepStm.setString(4, convertToString(u.getTransaction()));
             prepStm.setBoolean(5, u.isActive());
+            prepStm.setString(6, u.getCardStat());
             prepStm.execute();
         } catch(SQLException e){
             e.printStackTrace();
@@ -348,7 +352,7 @@ public class UserDao {
             duser = getUser(login);
         }
         String password = generateRandomString();
-        User u = new User(cstm.getAccount(), login, password, convertToList(""), false);
+        User u = new User(cstm.getAccount(), login, password, convertToList(""), false, "none");
         return u;
     }
     
@@ -499,6 +503,45 @@ public class UserDao {
                 return "SUCCESS";
             }
         }
+    }
+    
+    public String orderCard(String login){
+        try (Connection conn = DriverManager.getConnection(dbdriver,dbuser,dbpass);
+	 PreparedStatement stm = conn.prepareStatement("UPDATE users SET cardstat=? WHERE login=?");
+	 ) {	
+            stm.setString(1, "ordered");
+            stm.setString(2, login);
+            stm.execute();
+	} catch (SQLException e) {
+            throw new RuntimeException(e); 
+	}
+        return "SUCCESS";
+    }
+    
+    public String printCard(String login){
+        try (Connection conn = DriverManager.getConnection(dbdriver,dbuser,dbpass);
+	 PreparedStatement stm = conn.prepareStatement("UPDATE users SET cardstat=? WHERE login=?");
+	 ) {	
+            stm.setString(1, "printed");
+            stm.setString(2, login);
+            stm.execute();
+	} catch (SQLException e) {
+            throw new RuntimeException(e); 
+	}
+        return "SUCCESS";
+    }
+    
+    public String deliverCard(String login){
+        try (Connection conn = DriverManager.getConnection(dbdriver,dbuser,dbpass);
+	 PreparedStatement stm = conn.prepareStatement("UPDATE users SET cardstat=? WHERE login=?");
+	 ) {	
+            stm.setString(1, "delivered");
+            stm.setString(2, login);
+            stm.execute();
+	} catch (SQLException e) {
+            throw new RuntimeException(e); 
+	}
+        return "SUCCESS";
     }
 }
 

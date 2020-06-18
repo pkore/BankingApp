@@ -12,19 +12,6 @@
 <%@page import="com.bank.domain.UserDao"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-        
-        
-        <input type="submit" id="p" value="confirm" visibility="hidden">
-        <%=(request.getAttribute("errMessage1") == null) ? "": request.getAttribute("errMessage1")%>
-        </form>
-        <script>
-            func demoshow(){
-                document.getElementById("test").style.visibility="visible";
-            }
-        </script>
-    </body>
-</html>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -233,7 +220,7 @@ input{
 	
 	<tr>
             <th><button type="button" onclick="return change()">Proceed</button></th>
-            <th><button type="button" id="b2"  style="visibility:hidden" >Confirm</button></th>
+            <th><input type="submit" id="b2"  style="visibility:hidden" value="confirm" /></th>
   
 </table>
         <center><%=(request.getAttribute("errMessage1") == null) ? "": request.getAttribute("errMessage1")%></center>

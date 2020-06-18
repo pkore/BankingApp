@@ -7,9 +7,9 @@ package com.bank.servlet;
 
 import com.bank.domain.Customer;
 import com.bank.domain.DataConnection;
+import com.bank.domain.User;
 import com.bank.domain.UserDao;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,8 +29,13 @@ public class forgotDetailsServlet extends HttpServlet {
         String account=request.getParameter("account");
         UserDao userdao=DataConnection.getUserDao();
         Customer cstm =userdao.getCustomer(Integer.parseInt(account));
-        userdao.sendCredentials(cstm);
-        request.setAttribute("errMessage","An email has been sent on registered Email ID."); //If authenticateUser() function returnsother than SUCCESS string it will be sent to Login page again. Here the error message returned from function has been stored in a errMessage key.
+        User user = userdao.getUser(Integer.parseInt(account));
+        if(cstm.getAccount() != 0 && user.getAccount() !=0){
+            userdao.sendCredentials(cstm);
+            request.setAttribute("errMessage","An email has been sent on registered Email ID.");
+        } else{
+            request.setAttribute("errMessage","No such account exists.");
+        } 
         request.getRequestDispatcher("/forgotDetails.jsp").forward(request, response);//forwarding the request
     }
 

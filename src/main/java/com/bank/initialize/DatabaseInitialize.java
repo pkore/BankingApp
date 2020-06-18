@@ -99,7 +99,7 @@ public class DatabaseInitialize {
             }
             
 				
-            try (PreparedStatement prepStm = conn.prepareStatement("CREATE TABLE users (account int primary key, login varchar(30) unique, password varchar(30), transaction varchar(255), active boolean);")) {
+            try (PreparedStatement prepStm = conn.prepareStatement("CREATE TABLE users (account int primary key, login varchar(30) unique, password varchar(30), transaction varchar(255), active boolean, cardstat varchar(25));")) {
 		prepStm.execute();
             }
             
