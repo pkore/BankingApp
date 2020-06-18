@@ -230,28 +230,6 @@ public class UserDao {
         }
     }
     
-    public Admin getAdmin(String login){
-        List<Admin> adminList = new ArrayList<>();
-	try (Connection conn = DriverManager.getConnection(dbdriver,dbuser,dbpass);
-	 PreparedStatement stm = conn.prepareStatement("SELECT * FROM admins WHERE login = ?");
-	 ) {	
-            stm.setString(1, login);
-            ResultSet results = stm.executeQuery();
-            while (results.next()) {
-                String password = results.getString("password");
-                Admin a = new Admin(login, password);
-                adminList.add(a);
-            }
-	} catch (SQLException e) {
-            throw new RuntimeException(e); 
-	}
-        if(adminList.isEmpty()){
-            return new Admin();
-        } else {
-            return adminList.get(0);
-        }
-    }
-    
     public void newUser(User u){
         List<User> users = getAllUsers();
         
@@ -302,16 +280,6 @@ public class UserDao {
             return "SUCCESS";
         }
         return "Invalid user credentials."; // Return appropriate message in case of failure
-    }
-    
-    public String authenticateAdmin(Admin admin){
-        String userName = admin.getLogin(); //Assign user entered values to temporary variables.
-        String password = admin.getPassword();
-        Admin dbadmin = getAdmin(userName);
-        if(dbadmin.getLogin() != "" && dbadmin.getPassword().equals(password)){
-            return "SUCCESS";
-        }
-        return "Invalid admin credentials."; // Return appropriate message in case of failure
     }
     
     public String authenticateCustomer(Customer cstm){
@@ -469,7 +437,13 @@ public class UserDao {
     public void updateTransaction(int account, int id){
         User u = getUser(account);
         String tr = convertToString(u.getTransaction());
-        String newtr = Integer.toString(id) + ":" + tr;
+        String newtr;
+        if(tr.equals("")){
+            newtr = Integer.toString(id);
+        }
+        else{
+            newtr = Integer.toString(id) + ":" + tr;
+        }
         try (Connection conn = DriverManager.getConnection(dbdriver,dbuser,dbpass);
 	 PreparedStatement stm = conn.prepareStatement("UPDATE users SET transaction=? WHERE account=?");
 	 ) {	

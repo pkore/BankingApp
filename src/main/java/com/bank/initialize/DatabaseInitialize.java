@@ -23,10 +23,12 @@ import java.util.Random;
  */
 public class DatabaseInitialize {
     
+    private UserDao userdao = DataConnection.getUserDao();
+    
     private List<Customer> getCustomerList(){
         List<Customer> cstmList = new ArrayList<>();
         cstmList.add(new Customer(123456,"Ram Kapoor", "rkapoor@gmail.com", "9172330811", 25000.00));
-        cstmList.add(new Customer(234567,"Pran Gandhi", "pgandhi@gmail.com", "1234567890", 25022.45));
+        cstmList.add(new Customer(234567,"Pran Gandhi", "pgandhi@gmail.com", "9874757357", 25022.45));
         cstmList.add(new Customer(234531,"Jatin Rao", "jatiar@gmail.com", "3173636442", 453662.77));
         cstmList.add(new Customer(657832,"Radhe Ghosh", "radhsh@gmail.com", "9870675663", 6599403.34));
         cstmList.add(new Customer(977445,"Charlie Bhai", "charlana@gmail.com", "9359159866", 24545.33));
@@ -47,17 +49,40 @@ public class DatabaseInitialize {
         cstmList.add(new Customer(937466,"Urvashi Jagdish", "urvashrin@gmail.com", "9098765432", 7689.44));
         cstmList.add(new Customer(765473,"Sohail Somani", "sohani@gmail.com", "7889977654", 10398478.55));
         cstmList.add(new Customer(765474,"Shah Suman", "ssuman@gmail.com", "7889977635", 775648.33));
+        cstmList.add(new Customer(333333,"Pradnya Kore", "pradnyakore2000@gmail.com", "1234567890", 1000000.33));
+        cstmList.add(new Customer(333334,"Ritika Meena", "ritikameena17dec@gmail.com", "9876543210", 100000.33));
+        cstmList.add(new Customer(333335,"Anushka Chincholkar", "anuchinch2901@gmail.com", "2468024680", 2000000.33));
+        cstmList.add(new Customer(333336,"Harshal Sable", "harshal.sable1711@gmail.com", "1357913579", 10000.33));
+        cstmList.add(new Customer(333337,"Neha Pasine", "nehapasinegp26@gmail.com", "9753197531", 1000.33));
         return cstmList;
     }
     
-    private List<Customer> getNewUserList(){
-        List<Customer> cstmList = new ArrayList<>();
-        cstmList.add(new Customer(123456,"Ram Kapoor", "rkapoor@gmail.com", "9172330811", 25000.00));
-        cstmList.add(new Customer(986743,"Savita Gill", "savitll@gmail.com", "9323415456", 9000.00));
-        cstmList.add(new Customer(247392,"Faraz Lal", "faratal@gmail.com", "9819293454", 879954.55));
-        cstmList.add(new Customer(476329,"Payal Chaudry", "payalcdry@gmail.com", "9836545143", 67748.55));
-        cstmList.add(new Customer(765474,"Shah Suman", "ssuman@gmail.com", "7889977635", 775648.33));
-        return cstmList;
+    private List<User> getNewUserList(){
+        List<User> userList = new ArrayList<>();
+        userList.add(new User(123456,"ramk123", "ramk123", userdao.convertToList(""), true, "none"));
+        userList.add(new User(986743,"savi234", "savi234",userdao.convertToList(""), false, "none"));
+        userList.add(new User(247392,"fara456", "fara456",userdao.convertToList(""), true, "ordered"));
+        userList.add(new User(476329,"paya744", "paya744", userdao.convertToList(""), true, "none"));
+        userList.add(new User(765474,"shah003", "shah003", userdao.convertToList(""), false, "none"));
+        userList.add(new User(172634,"bire675", "bire675", userdao.convertToList(""), false, "none"));
+        userList.add(new User(665733,"naku189", "naku189", userdao.convertToList(""), true, "Request accepted"));
+        userList.add(new User(474637,"munn765", "munn765", userdao.convertToList(""), false, "none"));
+        userList.add(new User(333334,"ritika", "password", userdao.convertToList(""), true, "none"));
+        userList.add(new User(333335,"anushka", "password",userdao.convertToList(""), true, "none"));
+        userList.add(new User(333336,"harshal", "password", userdao.convertToList(""), true, "ordered"));
+        userList.add(new User(333337,"neha", "password", userdao.convertToList(""), false, "none"));
+        return userList;
+    }
+    
+    private List<TransactionInitialize> getTransactionList(){
+        List<TransactionInitialize> tr = new ArrayList<>();
+        tr.add(new TransactionInitialize("fara456", 665733, 25.0));
+        tr.add(new TransactionInitialize("paya744", 247392, 30.0));
+        tr.add(new TransactionInitialize("anushka", 333337, 60.0));
+        tr.add(new TransactionInitialize("anushka", 333337, 100.0));
+        tr.add(new TransactionInitialize("harshal", 312134, 45.0));
+        tr.add(new TransactionInitialize("ritika", 234567, 45.0));
+        return tr;
     }
     
     public void initializeDatabase() {
@@ -103,13 +128,17 @@ public class DatabaseInitialize {
 		prepStm.execute();
             }
             
-            List<Customer> userList = getNewUserList();
-            Random rand = new Random();
-            UserDao userdao = DataConnection.getUserDao();
-            for (Customer user : userList) {
-                User u = userdao.generateCredentials(user);
-                if(rand.nextInt(2) == 1) u.setActive(true);
-                userdao.newUser(u);
+            List<User> userList = getNewUserList();
+            for (User u : userList) {
+                try (PreparedStatement prepStm = conn.prepareStatement("INSERT INTO users (account, login, password, transaction, active, cardstat) values (?,?,?,?,?,?);");) {
+                    prepStm.setInt(1, u.getAccount());
+                    prepStm.setString(2, u.getUsername());
+                    prepStm.setString(3, u.getPassword());
+                    prepStm.setString(4, userdao.convertToString(u.getTransaction()));
+                    prepStm.setBoolean(5, u.isActive());
+                    prepStm.setString(6, u.getCardStat());
+                    prepStm.execute();
+                }
             }
             
             try (PreparedStatement prepStm = conn.prepareStatement("CREATE TABLE transactions (id int auto_increment primary key, source int, dest int, value float);")) {
@@ -118,28 +147,13 @@ public class DatabaseInitialize {
             
             try (PreparedStatement prepStm = conn.prepareStatement("ALTER TABLE transactions AUTO_INCREMENT = 1111;")){
                 prepStm.execute();
+            } 
+            
+            List<TransactionInitialize> tr = getTransactionList();
+            for(TransactionInitialize t: tr){
+                userdao.sendMoney(t.getLogin(), t.getDest(), t.getValue());
             }
-            
-            try (PreparedStatement prepStm = conn.prepareStatement("CREATE TABLE admins (login varchar(25) primary key, password varchar(30));")) {
-		prepStm.execute();
-            }
-            
-            for(int i=0; i<5; i++)
-            {
-                int user = rand.nextInt(userList.size());
-                String login = userdao.getUser(userList.get(user).getAccount()).getUsername();
-                int dest = cstmList.get(rand.nextInt(userList.size())).getAccount();
-                userdao.sendMoney(login, dest, rand.nextInt(1000));
-            }
-            int user1 = rand.nextInt(userList.size());
-            String login = userdao.getUser(userList.get(user1).getAccount()).getUsername();
-            int user2 = rand.nextInt(userList.size());
-            int dest = userList.get(user2).getAccount();
-            userdao.sendMoney(login, dest, rand.nextInt(1000));
-            
-            
-            
-            
+        
 	} catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
