@@ -38,9 +38,9 @@ public class statusServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String login=request.getParameter("log");
         UserDao userdao=DataConnection.getUserDao();
         HttpSession session=request.getSession(false);
+        String login=(String) session.getAttribute("name");
         User u=userdao.getUser(login);
         String status=u.getCardStat();
         request.setAttribute("status", status);

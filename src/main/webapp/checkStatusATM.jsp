@@ -26,7 +26,7 @@ function loadDoc() {
     alert("if");
   };
   alert("last");
-  xhttp.open("GET","/Bank/statusServlet?log"+login, true);
+  xhttp.open("GET","/Bank/statusServlet", true);
   xhttp.send();
 }
 
