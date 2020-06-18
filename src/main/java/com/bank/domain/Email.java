@@ -19,8 +19,8 @@ import javax.mail.internet.MimeMessage;
  * @author Anushka Chincholkar
  */
 public class Email {
-  private static final String senderEmail = "bank@bank.com";//change with your sender email
-  private static final String senderPassword = "bankpassword";//change with your sender password
+  private static final String senderEmail = "newmontrealbank@gmail.com";//change with your sender email
+  private static final String senderPassword = "newbank1";//change with your sender password
 
   public static void sendAsHtml(String to, String title, String html) throws MessagingException {
       //System.out.println("Sending email to " + to);
