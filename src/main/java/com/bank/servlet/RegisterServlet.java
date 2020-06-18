@@ -38,8 +38,8 @@ public class RegisterServlet extends HttpServlet {
          String customerValidate=userDao.authenticateCustomer(cstm);//The core Logic of the Registration application is present here. We are going to insert user data in to the database.
          if(customerValidate.equals("SUCCESS"))   //On success, you can display a message to user on Home page
          {
-            
-            User u=userDao.generateCredentials(cstm);       //generating login id and password
+            Customer dbcstm = userDao.getCustomer(account);
+            User u=userDao.generateCredentials(dbcstm);       //generating login id and password
             userDao.newUser(u);                             //updating user database
             request.getRequestDispatcher("/login.jsp").forward(request, response);
          }
