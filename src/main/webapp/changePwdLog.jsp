@@ -1,15 +1,9 @@
 <%-- 
-    Document   : changeUsername
-    Created on : 18-Jun-2020, 2:10:48 am
+    Document   : changePwdLog
+    Created on : 18-Jun-2020, 2:56:02 pm
     Author     : Admin
 --%>
 
-<%@page import="com.bank.domain.Transaction"%>
-<%@page import="com.bank.domain.Customer"%>
-<%@page import="java.util.List"%>
-<%@page import="com.bank.domain.User"%>
-<%@page import="com.bank.domain.DataConnection"%>
-<%@page import="com.bank.domain.UserDao"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -115,63 +109,41 @@ nav .start-contact, a:nth-child(5):hover~.animation {
 
 
 }
-input, button{
+button{
 	width: 100%;
 	border: 0;
 	border-radius: 20px;
 }
-input{
-	border-bottom: 2px solid #444;
-	padding: 12px 40px 12px 20px;
-	border-radius: 20px;
-}
 
-input, button, .group i, p, a{
+
+input, button, p, a{
 	font-size: 13.3333px;
 	font-weight: 600;
 }
-.group{
-	margin-bottom: 10px;
-	position: relative;
-}
-.group i{
-	position: absolute;
-	top: 15px;
-	right: 20px;
-}
-.submit{
+
+button{
 	padding: 12px;
 	background-color: #34495e;
 	margin-bottom: 20px; 
 	cursor: pointer;
 
 }
-.submit{
+button, button i{
 	color: #fff;
 }
-.submit{
+button i{
 	margin-right: 5px;
 }
 .wrap{
   width: 30%;
   position: absolute;
- top: 85%;
+top: 83%;
   left: 55%;
   transform: translate(-50%, -50%);
 }
 </style>
-<script>
-    function validate(){
-        var login = document.form.newLogin.value;
-        if (login==null || login=="")
-                 { 
-                 alert("Give new login ID."); 
-                 return false; 
-                 }
-    }
-    </script>
 </head>
- <% 
+<% 
     UserDao userdao=DataConnection.getUserDao();
     String login=(String)session.getAttribute("name");
     User u=userdao.getUser(login);
@@ -180,7 +152,6 @@ input, button, .group i, p, a{
     double balance=cstm.getBalance();
 %>
 <body>
-    <nav>
 	<a href="/Bank/userHomepage.jsp"><i class="fa fa-empire"></i></a>
 	<a href="/Bank/userHomepage.jsp">Home</a>
 	<a href="#">About</a>
@@ -196,18 +167,15 @@ input, button, .group i, p, a{
   <p>Name: <%= cstm.getName() %></p>
   <p>Login ID: <%= login %></p>
   <p>E-mail: <%= cstm.getEmail()%></p>
-  <p>Contact no: <%= cstm.getPhone()%></p>  
+  <p>Contact no: <%= cstm.getPhone()%></p> 
 </div>
-
+<p></p>
 <div class="wrap">
 	<div class="login">
-		<h2>Change User-ID</h2>
-                <form name="form" method="post" action="changeUsernameServlet" onsubmit="return validate()">
-		<div class="group"><input  name="newLogin" type="text" placeholder='New Username' align="middle"><i class="fa fa-user-circle" aria-hidden="true"></i></i></div>
 		
-		<input type="submit" class="submit" value="Confirm" />
-                </form>
-                <center><p style="color:green"><%=(request.getAttribute("errMessage") == null) ? "": request.getAttribute("errMessage")%></p></center>
+		<button><a href="/Bank/changeUsername.jsp">Change Username</a></button>
+		<button><a href="/Bank/changePassword.jsp">Change Password</a></button>
+		
       </div>
   </div>
   </body>

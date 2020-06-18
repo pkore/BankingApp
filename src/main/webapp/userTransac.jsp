@@ -199,5 +199,6 @@ select{
             <th>-</th>
             <th><%= balance %></th>
         </tr>
+ </table>
 </body>
 </html>

@@ -121,7 +121,7 @@ table {
                 padding:5px 
              }
 
-button{
+.b{
 		width: 150px;
 	border: 0;
 	border-radius: 20px;
@@ -219,8 +219,8 @@ input{
 	</tr>
 	
 	<tr>
-            <th><button type="button" onclick="return change()">Proceed</button></th>
-            <th><input type="submit" id="b2"  style="visibility:hidden" value="confirm" /></th>
+            <th><button type="button" class="b" onclick="return change()">Proceed</button></th>
+            <th><input type="submit" id="b2"  class="b" style="visibility:hidden" value="confirm" /></th>
   
 </table>
         <center><%=(request.getAttribute("errMessage1") == null) ? "": request.getAttribute("errMessage1")%></center>

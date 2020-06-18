@@ -146,17 +146,17 @@ input, button, .group i, p, a{
 	top: 15px;
 	right: 20px;
 }
-button{
+.submit{
 	padding: 12px;
 	background-color: #34495e;
 	margin-bottom: 20px; 
 	cursor: pointer;
 
 }
-button, button i{
+.submit{
 	color: #fff;
 }
-button i{
+.submit{
 	margin-right: 5px;
 }
 .wrap{
@@ -213,7 +213,7 @@ button i{
 		<div class="group"><input  type="password" placeholder="Current Password" align="middle" name="currentPass"><i class="fa fa-lock"></i></i></div>
 		<div class="group"><input type="password" placeholder="New Password" name="newPass"><i class="fa fa-lock"></i></div>
 		<div class="group"><input type="password" placeholder="Confirm New Password" name="confPass"><i class="fa fa-lock"></i></div>
-                <input type="submit" value="Confirm" />
+                <input type="submit" class="submit" value="Confirm" />
 		</form>
                 <center><p style="color:green"><%=(request.getAttribute("errMessage") == null) ? "": request.getAttribute("errMessage")%></p></center>
       </div>

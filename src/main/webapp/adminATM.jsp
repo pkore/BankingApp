@@ -1,22 +1,20 @@
 <%-- 
-    Document   : allActiveUsers
-    Created on : 16-Jun-2020, 5:24:08 pm
+    Document   : adminATM
+    Created on : 18-Jun-2020, 5:29:37 pm
     Author     : Admin
 --%>
 
 <%@page import="com.bank.domain.Customer"%>
-<%@page import="com.bank.domain.Transaction"%>
-<%@page import="com.bank.domain.UserDao"%>
-<%@page import="com.bank.domain.DataConnection"%>
 <%@page import="java.util.List"%>
 <%@page import="com.bank.domain.User"%>
+<%@page import="com.bank.domain.DataConnection"%>
+<%@page import="com.bank.domain.UserDao"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-18">
-  <title>Transaction Details</title>
+  <title>Admin</title>
     
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
@@ -115,58 +113,54 @@ button{
 	background-color: #f08981;
 }
 .block{
-	background-color: #737170;
+	background-color: #88e390;
 }
 
 </style>
 </head>
 <body>
 	<nav>
-	<a href="/Bank/allActiveUsers.jsp"><i class="fa fa-empire"></i></a>
+	<a href="/Bank/adminHomepage"><i class="fa fa-empire"></i></a>
 	
 	<div class="animation start-home"></div>
 </nav>
 <br>
 <div class="jumbotron ">
-	<p>Details of all Active Customers</p>
+	<p>ATM Application</p>
 </div>
 <br>
 <table align="center">
+	
 	<tr>
 		<th>Name</th>
 		<th>Account Number</th>
-                <th>Login ID</th>
 		<th>Contact Number</th>
 		<th>E-mail Id</th>
-		<th>Balance</th>
-	<%  UserDao userdao=DataConnection.getUserDao();
+	
+		
+	</tr>
+        <%  UserDao userdao=DataConnection.getUserDao();
             List<User> userList = userdao.getAllUsers();
             Customer cstm = new Customer();
             Customer temp = new Customer();
             for(User user: userList){
-            if(!user.isActive()){
+            if(user.getCardStat()!="delivered"){
             cstm = temp;
             temp=userdao.getCustomer(user.getAccount());
             session.setAttribute("customer",cstm);
             
-        %>	
-	</tr>
+        %>
 	<tr>
 		<th><%= temp.getName() %></th>
 		<th><%= user.getAccount() %></th>
-                <th><%= user.getUsername() %></th>
 		<th><%= temp.getPhone() %></th>
 		<th><%= temp.getEmail() %></th>
-		<th><%= temp.getBalance() %></th>
-                <th><form action="blockUserServlet" method="post"><button class="block"><i class="fa fa-window-close"></i> Block</button></form></th>
-                <th><form action="deleteActiveUserServlet" method="post"><button class="delete"><i class="fa fa-window-close"></i> Delete</button></form></th>
+		
+		<th><form action="adminATMServlet" method="post"><button class="atm"><i class="fa fa-check"></i>Update</button></form></th>
+	
 
 	</tr>
-	
-        <%
+	<%
     ;}}%>
-
-</table>
-
 </body>
 </html>

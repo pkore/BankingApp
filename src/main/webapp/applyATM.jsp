@@ -1,17 +1,19 @@
 <%-- 
-    Document   : changeUsername
-    Created on : 18-Jun-2020, 2:10:48 am
+    Document   : applyATM
+    Created on : 18-Jun-2020, 4:04:12 pm
     Author     : Admin
 --%>
 
-<%@page import="com.bank.domain.Transaction"%>
 <%@page import="com.bank.domain.Customer"%>
+<%@page import="com.bank.domain.Transaction"%>
+<%@page import="com.bank.domain.DataConnection"%>
 <%@page import="java.util.List"%>
 <%@page import="com.bank.domain.User"%>
-<%@page import="com.bank.domain.DataConnection"%>
+<%@page import="com.bank.domain.UserDao"%>
 <%@page import="com.bank.domain.UserDao"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 	<meta charset="UTF-18">
@@ -115,41 +117,28 @@ nav .start-contact, a:nth-child(5):hover~.animation {
 
 
 }
-input, button{
+button{
 	width: 100%;
 	border: 0;
 	border-radius: 20px;
 }
-input{
-	border-bottom: 2px solid #444;
-	padding: 12px 40px 12px 20px;
-	border-radius: 20px;
-}
 
-input, button, .group i, p, a{
+button, p, a{
 	font-size: 13.3333px;
 	font-weight: 600;
 }
-.group{
-	margin-bottom: 10px;
-	position: relative;
-}
-.group i{
-	position: absolute;
-	top: 15px;
-	right: 20px;
-}
-.submit{
+
+button{
 	padding: 12px;
 	background-color: #34495e;
 	margin-bottom: 20px; 
 	cursor: pointer;
 
 }
-.submit{
+button{
 	color: #fff;
 }
-.submit{
+button i{
 	margin-right: 5px;
 }
 .wrap{
@@ -160,18 +149,9 @@ input, button, .group i, p, a{
   transform: translate(-50%, -50%);
 }
 </style>
-<script>
-    function validate(){
-        var login = document.form.newLogin.value;
-        if (login==null || login=="")
-                 { 
-                 alert("Give new login ID."); 
-                 return false; 
-                 }
-    }
-    </script>
 </head>
- <% 
+<body>
+	<% 
     UserDao userdao=DataConnection.getUserDao();
     String login=(String)session.getAttribute("name");
     User u=userdao.getUser(login);
@@ -179,8 +159,7 @@ input, button, .group i, p, a{
     Customer cstm=userdao.getCustomer(u.getAccount());
     double balance=cstm.getBalance();
 %>
-<body>
-    <nav>
+<nav>
 	<a href="/Bank/userHomepage.jsp"><i class="fa fa-empire"></i></a>
 	<a href="/Bank/userHomepage.jsp">Home</a>
 	<a href="#">About</a>
@@ -194,20 +173,20 @@ input, button, .group i, p, a{
   <h2>User details</h2>
   <p>Account no: <%= cstm.getAccount()%></p>
   <p>Name: <%= cstm.getName() %></p>
-  <p>Login ID: <%= login %></p>
-  <p>E-mail: <%= cstm.getEmail()%></p>
-  <p>Contact no: <%= cstm.getPhone()%></p>  
+  <p>Balance:<%= cstm.getBalance() %></p>
 </div>
-
 <div class="wrap">
+    
 	<div class="login">
-		<h2>Change User-ID</h2>
-                <form name="form" method="post" action="changeUsernameServlet" onsubmit="return validate()">
-		<div class="group"><input  name="newLogin" type="text" placeholder='New Username' align="middle"><i class="fa fa-user-circle" aria-hidden="true"></i></i></div>
+            <%if(u.getCardStat().equalsIgnoreCase("ordered")){%>
+		<h2>Apply for ATM</h2>
+		<form name="form" method="post" action="atmServlet">
+		<button>Apply</button></form>
+                <%}else{%>
+                <h2>Check your ATM Card Status</h2>
 		
-		<input type="submit" class="submit" value="Confirm" />
-                </form>
-                <center><p style="color:green"><%=(request.getAttribute("errMessage") == null) ? "": request.getAttribute("errMessage")%></p></center>
+		<a href="/Bank/checkStatusATM.jsp"><button>Check Status</button></a>
+                <%}%>
       </div>
   </div>
   </body>

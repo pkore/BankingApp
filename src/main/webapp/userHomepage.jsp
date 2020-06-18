@@ -10,7 +10,16 @@
 <%@page import="com.bank.domain.UserDao"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<!DOCTYPE html>
+<%
+    UserDao userdao=DataConnection.getUserDao();
+    String login=(String)session.getAttribute("name");
+    if(login==null || login==""){
+        response.sendRedirect("login.jsp");
+    }
+    User u=userdao.getUser(login);
+    Customer cstm =userdao.getCustomer(u.getAccount());
+    
+%>
 <html>
 <head>
   <meta charset="UTF-18">
@@ -137,6 +146,7 @@ b
 }
 </style>
 </head>
+
 <body>
 <nav>
 	<a href="/Bank/userHomepage.jsp"><i class="fa fa-empire"></i></a>
@@ -148,12 +158,6 @@ b
 </nav>
 
 <p></p>
-<%
-    UserDao userdao=DataConnection.getUserDao();
-    String login=(String)session.getAttribute("name");
-    User u=userdao.getUser(login);
-    Customer cstm =userdao.getCustomer(u.getAccount());
-%>
 <div class="jumbotron ">
   <h2>User details</h2>
   <p>Account no: <%= cstm.getAccount()%></p>
@@ -167,8 +171,8 @@ b
 <div class="grid-container">
   <div class="group"><a href="/Bank/userTransac.jsp">Show Transactions</a></div>
   <div class="group"><a href="/Bank/conductTransaction.jsp">Make a New Transaction</a></div>
-  <div class="group"><a href="#">Apply for Credit Card</a></div>
-  <div class="group"><a href="/Bank/changePassword.jsp">Change Username/Password</a></div>  
+  <div class="group"><a href="/Bank/applyATM.jsp">Apply for Credit Card</a></div>
+  <div class="group"><a href="/Bank/changePwdLog.jsp">Change Username/Password</a></div>  
 
 </div>
 
