@@ -159,7 +159,12 @@ h2{
 				<div>
 					<a href="/Bank/inActiveUsers.jsp">Approve Inactive Users</a>
 				</div>
-				</li>
+                        </li>
+                        <li>
+				<div>
+					<center><a href="/Bank/adminATM.jsp">ATM card applications</a></center>
+				</div>
+                        </li>
 			</ul>
 		</section>
 
