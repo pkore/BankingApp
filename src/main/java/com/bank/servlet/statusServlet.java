@@ -44,10 +44,11 @@ public class statusServlet extends HttpServlet {
         User u=userdao.getUser(login);
         String status=u.getCardStat();
         request.setAttribute("status", status);
+        //request.setAttribute("errMessage", status);
         ServletContext context=getServletContext();
         RequestDispatcher dispatcher =context.getRequestDispatcher("/checkStatusATM.jsp");
         dispatcher.forward(request, response);
-        //request.setAttribute("errMessage", status);
+        
        
     }
 

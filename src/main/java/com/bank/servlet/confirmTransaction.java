@@ -39,7 +39,8 @@ public class confirmTransaction extends HttpServlet {
       String transaction=userdao.sendMoney(login,dest,value);
       if(transaction.equals("SUCCESS")) //If function returns success string then user will be rooted to Home page
          {
-            request.setAttribute("errMessage1", "Transaction sucessful.Available balance:"+cstm.getBalance()); 
+            double newbal=cstm.getBalance()-value;
+            request.setAttribute("errMessage1", "Transaction sucessful.Available balance:"+newbal); 
             request.getRequestDispatcher("/conductTransaction.jsp").include(request, response);
          }
          else

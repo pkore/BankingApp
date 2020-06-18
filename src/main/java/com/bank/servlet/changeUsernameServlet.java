@@ -28,10 +28,13 @@ public class changeUsernameServlet extends HttpServlet {
             throws ServletException, IOException {
         String newLogin=request.getParameter("newLogin");
         UserDao userdao=DataConnection.getUserDao();
-        HttpSession session=request.getSession(false);
+        HttpSession session=request.getSession(true);
         String login=(String) session.getAttribute("name");
         String status=userdao.updateLogin(login,newLogin);
         if(status=="SUCCESS"){
+            session.invalidate();
+            session=request.getSession(true);
+            session.setAttribute("name",newLogin);
             request.setAttribute("errMessage", "Username updated");
             request.getRequestDispatcher("/changeUsername.jsp").forward(request, response);
         }else{

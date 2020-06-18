@@ -25,7 +25,8 @@ public class logoutServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session=request.getSession(false);
-        session.removeAttribute("customer");
+        session.removeAttribute("name");
+        session.invalidate();
         request.getRequestDispatcher("/login.jsp").forward(request, response);//RequestDispatcher is used to send the control to the invoked page.
     }
 
