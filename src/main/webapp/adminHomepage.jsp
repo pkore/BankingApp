@@ -77,55 +77,54 @@ h2{
 	font-size: 50px;
 }
 
+.box1 {
+  grid-column-start: 1;
+  grid-column-end: 4;
+  grid-row-start: 1;
+  grid-row-end: 3;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+}
+* {box-sizing: border-box;}
 
-.grid {
-  		overflow: hidden;
-			padding: 0.5em 0 0 0.5em;
-			max-width: 76em;
-			margin: 0 auto;
-		}
-		.grid li {
-			padding: 0 0.5em 0.5em 0;
-		}
-		.grid li > div {
-			background: #84b8f0;
-			padding: 7em 2em;
-			text-align: center;
-		}
-		.grid li a {
-			color: black;
-		}
-		
-		@media all and (min-width: 27em) {
-			.grid li {
-				width: 50%;
-				float: left;
-			}
-		}
-		
-		@media all and (min-width: 40em) {
-			.grid li {
-				width: 33.3333333%;
-			}
-			.grid li.wide {
-				width: 66.666666%;
-			}
-		}
-		@media all and (min-width: 60em) {
-			.grid li {
-				width: 25%;
-			}
-			.grid li.wide {
-				width: 50%;
-			}
-		}
+.wrapper {
+  border: 2px solid #1abc9c;
+  border-radius: 5px;
+  background-color: #1abc9c;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.box {
+  border: 2px solid #1abc9c;
+  border-radius: 5px;
+  background-color: #1abc9c;
+  padding: 1em;
+  color: #fff;
+}
+
+.box1 {
+  grid-column: 1 / 6;
+}
+
+.nested {
+  border: 2px solid #1abc9c;
+  border-radius: 5px;
+  background-color: #1abc9c;
+  padding: 1em;
+}
+
+.nested a{
+    color: white;
+}
+
 
 
 </style>
 </head>
 <body>
 <nav>
-	<a href="/Bank/adminHomepage.jsp"><i class="fa fa-empire"></i></a>
+	<a href="admin_home.html"><i class="fa fa-empire"></i></a>
 	
 	<div class="animation start-home"></div>
 </nav>
@@ -138,38 +137,21 @@ h2{
 </div>
 
 <p></p>
-<section id="pattern" class="pattern">
-  	<ul class="grid">
-			<li>
-				<div>
-					<a href="/Bank/searchAccount.jsp">Search Account Details</a>
-				</div>
-			</li>
-			<li>
-				<div>
-					<a href="/Bank/allCustomer.jsp">View Details of all Customers</a>
-				</div>
-			</li>
-			<li>
-				<div>
-					<a href="/Bank/allActiveUsers.jsp">View Details of all Active Customers</a>
-				</div>
-			</li>
-			<li>
-				<div>
-					<a href="/Bank/inActiveUsers.jsp">Approve Inactive Users</a>
-				</div>
-                        </li>
-                        <li>
-				<div>
-					<center><a href="/Bank/adminATM.jsp">ATM card applications</a></center>
-				</div>
-                        </li>
-			</ul>
-		</section>
 
 
+
+
+
+<div class="wrapper">
+  <div class="box box1">
+    <div class="nested"><a href="/Bank/searchAccount.jsp">Search Account Details</a></div>
+    <div class="nested"><a href="/Bank/allCustomer.jsp">View Details of all Customers</a></div>
+    <div class="nested"><a href="/Bank/allActiveUsers.jsp">View Details of all Active Customers</a></div>
+      <div class="nested"><a href="/Bank/inActiveUsers.jsp">Approve Inactive Users</a></div>
+      <div class="nested"><a href="/Bank/adminATM.jsp">Update Card Applications</a></div>
+  </div>
+
+</div>
 
 </body>
 </html>
-
