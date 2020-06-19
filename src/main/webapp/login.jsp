@@ -42,6 +42,7 @@
 		<p style="color:red"><%=(request.getAttribute("errMessage") == null) ? "": request.getAttribute("errMessage")%></p>
                 <button><i class="fa fa-send"></i>Login</button>
                 </form>
+                <p style="color:green"><%=(request.getAttribute("signup") == null) ? "": request.getAttribute("signup")%></p>
 		<p class="fs"><a href="/Bank/forgotDetails.jsp">Forgot Username/Password</a>?</p>
                 <p class='ss'>Don't have an account?    <a href="/Bank/signup.jsp">Signup</a></p>
                 

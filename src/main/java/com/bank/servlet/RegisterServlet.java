@@ -40,7 +40,8 @@ public class RegisterServlet extends HttpServlet {
          {
             Customer dbcstm = userDao.getCustomer(account);
             User u=userDao.generateCredentials(dbcstm);       //generating login id and password
-            userDao.newUser(u);                             //updating user database
+            userDao.newUser(u); //updating user database
+            request.setAttribute("signup","Sign up successful.An email will be sent on registered email ID after approval.");
             request.getRequestDispatcher("/login.jsp").forward(request, response);
          }
          else   //On Failure, display a meaningful message to the User.

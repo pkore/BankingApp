@@ -291,7 +291,7 @@ public class UserDao {
         if(cstm.getPhone().equals(dbcstm.getPhone()) && cstm.getEmail().equals(dbcstm.getEmail())){
             return "SUCCESS";
         } else {
-            return "Please enter registered email and phone for your account." + cstm.getPhone() + dbcstm.getPhone() + cstm.getEmail() + dbcstm.getEmail();
+            return "Please enter registered email and phone for your account.";
         }
     }
     
