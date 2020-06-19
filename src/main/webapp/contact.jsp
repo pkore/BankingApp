@@ -1,26 +1,24 @@
 <%-- 
-    Document   : applyATM
-    Created on : 18-Jun-2020, 4:04:12 pm
+    Document   : contact
+    Created on : 19-Jun-2020, 12:16:49 pm
     Author     : Admin
 --%>
 
-<%@page import="com.bank.domain.Customer"%>
-<%@page import="com.bank.domain.Transaction"%>
-<%@page import="com.bank.domain.DataConnection"%>
-<%@page import="java.util.List"%>
-<%@page import="com.bank.domain.User"%>
-<%@page import="com.bank.domain.UserDao"%>
-<%@page import="com.bank.domain.UserDao"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-
-<html lang="en">
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
 <head>
-	<meta charset="UTF-18">
-	<title>Application For Card</title>
-	
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-	 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <meta charset="UTF-18">
+  <title>Contact</title>
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -110,55 +108,10 @@ nav .start-contact, a:nth-child(5):hover~.animation {
 }
 
 
-.login{
-	text-align: center;
-	position: relative;
-	width: 280px;
 
-
-}
-button{
-	width: 100%;
-	border: 0;
-	border-radius: 20px;
-}
-
-button, p, a{
-	font-size: 13.3333px;
-	font-weight: 600;
-}
-
-button{
-	padding: 12px;
-	background-color: #34495e;
-	margin-bottom: 20px; 
-	cursor: pointer;
-
-}
-button{
-	color: #fff;
-}
-button i{
-	margin-right: 5px;
-}
-.wrap{
-  width: 30%;
-  position: absolute;
- top: 85%;
-  left: 55%;
-  transform: translate(-50%, -50%);
-}
 </style>
 </head>
 <body>
-	<% 
-    UserDao userdao=DataConnection.getUserDao();
-    String login=(String)session.getAttribute("name");
-    User u=userdao.getUser(login);
-    List<Transaction> i=u.getTransaction();
-    Customer cstm=userdao.getCustomer(u.getAccount());
-    double balance=cstm.getBalance();
-%>
 <nav>
 	<a href="/Bank/userHomepage.jsp"><i class="fa fa-empire"></i></a>
 	<a href="/Bank/userHomepage.jsp">Home</a>
@@ -166,28 +119,21 @@ button i{
 	<a href="/Bank/contact.jsp">Contact Us</a>
 	<a href="/Bank/logoutServlet">Logout</a>
 	<div class="animation start-home"></div>
+
 </nav>
 
 <p></p>
 <div class="jumbotron ">
-  <h2>User details</h2>
-  <p>Account no: <%= cstm.getAccount()%></p>
-  <p>Name: <%= cstm.getName() %></p>
-  <p>Balance:<%= cstm.getBalance() %></p>
+  
+  <h2>Contact us at :</h2>
+  <p> <i class="fa fa-lock"></i> +91-9699173231</p>
+  <h2>E-mail us :</h2>
+  <p> <i class="fa fa-user-circle" aria-hidden="true"></i> newmontrealbank@gmail.com</p> 
 </div>
-<div class="wrap">
-    
-	<div class="login">
-            <%if(!u.getCardStat().equalsIgnoreCase("ordered")){%>
-		<h2>Apply for ATM</h2>
-		<form name="form" method="post" action="atmServlet">
-		<button>Apply</button></form>
-                <%}else{%>
-                <h2>Check your ATM Card Status</h2>
-		
-		<a href="/Bank/checkStatusATM.jsp"><button>Check Status</button></a>
-                <%}%>
-      </div>
-  </div>
-  </body>
-  </html>
+
+
+
+</body>
+</html>
+
+

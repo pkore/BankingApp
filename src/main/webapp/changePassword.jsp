@@ -192,10 +192,11 @@ input, button, .group i, p, a{
 	<nav>
 	<a href="/Bank/userHomepage.jsp"><i class="fa fa-empire"></i></a>
 	<a href="/Bank/userHomepage.jsp">Home</a>
-	<a href="#">About</a>
-	<a href="#">Contact Us</a>
+	<a href="/Bank/about.jsp">About</a>
+	<a href="/Bank/contact.jsp">Contact Us</a>
 	<a href="/Bank/logoutServlet">Logout</a>
 	<div class="animation start-home"></div>
+
 </nav>
 
 <p></p>
