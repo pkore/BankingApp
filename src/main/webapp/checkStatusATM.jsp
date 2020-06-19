@@ -160,19 +160,14 @@ button i{
 
 </style>
 <script>
-            var log;
 function loadDoc() {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
-      alert("called");
     if (this.readyState === 4 && this.status===200) {
       document.getElementById("status").innerHTML=this.responseText;
-      alert("inserted");
     }
-    alert("if");
   };
-  alert("last");
-  xhttp.open("GET","/Bank/statusServlet", true);
+  xhttp.open("GET","/Bank/statusServlet?name=${name}", true);
   xhttp.send();
 }
 
@@ -202,7 +197,6 @@ function loadDoc() {
 	<div class="login">
 		<br>
 		<p style="font-size: 30px; color: #34495e; font-family: calibri;" id="status">Application is in process...</p>
-		<%=(request.getAttribute("status") == null) ? "": request.getAttribute("status")%>
 		<button type="button" onclick="loadDoc()">Refresh</button>
 		
       </div>

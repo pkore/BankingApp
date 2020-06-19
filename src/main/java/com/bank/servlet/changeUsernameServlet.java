@@ -36,7 +36,7 @@ public class changeUsernameServlet extends HttpServlet {
             session=request.getSession(true);
             session.setAttribute("name",newLogin);
             request.setAttribute("errMessage", "Username updated");
-            request.getRequestDispatcher("/changeUsername.jsp").forward(request, response);
+            request.getRequestDispatcher("/logoutServlet").forward(request, response);
         }else{
             request.setAttribute("errMessage", status);
             request.getRequestDispatcher("/changeUsername.jsp").forward(request, response);

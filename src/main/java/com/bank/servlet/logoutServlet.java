@@ -29,6 +29,15 @@ public class logoutServlet extends HttpServlet {
         session.invalidate();
         request.getRequestDispatcher("/login.jsp").forward(request, response);//RequestDispatcher is used to send the control to the invoked page.
     }
+    
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session=request.getSession(false);
+        session.removeAttribute("name");
+        session.invalidate();
+        request.getRequestDispatcher("/login.jsp").forward(request, response);//RequestDispatcher is used to send the control to the invoked page.
+    }
 
     /**
      * Returns a short description of the servlet.

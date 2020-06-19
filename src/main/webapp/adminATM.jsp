@@ -14,7 +14,7 @@
 <html>
 <head>
   <meta charset="UTF-18">
-  <title>Admin</title>
+  <title>Card Applications</title>
     
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
@@ -120,7 +120,7 @@ button{
 </head>
 <body>
 	<nav>
-	<a href="/Bank/adminHomepage"><i class="fa fa-empire"></i></a>
+	<a href="/Bank/adminHomepage.jsp"><i class="fa fa-empire"></i></a>
 	
 	<div class="animation start-home"></div>
 </nav>
@@ -136,6 +136,7 @@ button{
 		<th>Account Number</th>
 		<th>Contact Number</th>
 		<th>E-mail Id</th>
+                <th>Status</th>
 	
 		
 	</tr>
@@ -154,6 +155,7 @@ button{
 		<th><%= user.getAccount() %></th>
 		<th><%= temp.getPhone() %></th>
 		<th><%= temp.getEmail() %></th>
+                <th><%= user.getCardStat() %></th>
 		
 		<th><form action="adminATMServlet" method="post"><button class="atm"><i class="fa fa-check"></i>Update</button></form></th>
 	

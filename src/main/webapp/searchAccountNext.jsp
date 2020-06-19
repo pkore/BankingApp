@@ -15,7 +15,7 @@
 <html>
 <head>
   <meta charset="UTF-18">
-  <title>Transaction Details</title>
+  <title>Account Details</title>
     
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
@@ -233,7 +233,7 @@ function onlynum() {
                 <th><%= balance%><th>
         </tr>
             <%   balance=balance-t.getValue();
-            };}}%>
+            };}%>
                 <tr>
             <th>-</th>
             <th>-</th>
@@ -241,7 +241,7 @@ function onlynum() {
             <th>-</th>
             <th><%= balance %></th>
             </tr>
-            <%}else{%>
+            <%;}}else{%>
             <div class="jumbotron ">
 	<div class="wrap">
             <div class="search">

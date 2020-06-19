@@ -16,7 +16,7 @@
 <html>
 <head>
   <meta charset="UTF-18">
-  <title>Transaction Details</title>
+  <title>Active User Details</title>
     
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
@@ -122,7 +122,7 @@ button{
 </head>
 <body>
 	<nav>
-	<a href="/Bank/allActiveUsers.jsp"><i class="fa fa-empire"></i></a>
+	<a href="/Bank/adminHomepage.jsp"><i class="fa fa-empire"></i></a>
 	
 	<div class="animation start-home"></div>
 </nav>
